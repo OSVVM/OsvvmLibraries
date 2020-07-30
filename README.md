@@ -12,7 +12,7 @@ According to the [2018 Wilson Verification Survey](https://blogs.mentor.com/veri
  - #1 FPGA Verification Methodology in Europe (ahead of SystemVerilog + UVM)
 
 ## The OSVVM Verification Script Library
-The [OSVVM Verification Script Library](https://opensource.ieee.org/osvvm/OSVVM-Scripts) 
+The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts) 
 provides a simple way to build the OSVVM libraries.
 The scripts are so simple that they can be read
 by anyone and also serve as documentation of compilation order.
@@ -25,7 +25,7 @@ tcl procedures.
  [Documentation for the OSVVM script library can be found here](https://github.com/OSVVM/Documentation)
  
 ## The OSVVM Utility Library 
-The [OSVVM utility library](https://opensource.ieee.org/osvvm/osvvm) offers the same capabilities as those provided by other verification languages (such as SystemVerilog and UVM):
+The [OSVVM utility library](https://github.com/osvvm/osvvm) offers the same capabilities as those provided by other verification languages (such as SystemVerilog and UVM):
 
  - Transaction-Level Modeling
  - Constrained Random test generation
@@ -42,7 +42,7 @@ The [OSVVM utility library](https://opensource.ieee.org/osvvm/osvvm) offers the 
  [Documentation for the Utility library can be found here](https://github.com/OSVVM/Documentation)
  
 ## The OSVVM Model Independent Transaction Library
-The [OSVVM Common Library](https://opensource.ieee.org/osvvm/OSVVM-Common)
+The [OSVVM Common Library](https://github.com/osvvm/OSVVM-Common)
 defines OSVVM's Model Independent Transactions for 
 Address Bus and Streaming Interfaces.
 The OSVVM common library is required to use any
@@ -54,16 +54,16 @@ verification components commonly used for FPGA and ASIC verification.
 A verification component is implemented with an entity and architecture.  
 The library currently contains the following repositories:
 
- - [AXI4](https://opensource.ieee.org/osvvm/AXI4)
+ - [AXI4](https://github.com/osvvm/AXI4)
    - Master - coming soon
    - Memory Slave - coming soon
- - [AXI4 Lite](https://opensource.ieee.org/osvvm/AXI4)
+ - [AXI4 Lite](https://github.com/osvvm/AXI4)
    - Master
    - Transaction Slave 
- - [AXI Stream](https://opensource.ieee.org/osvvm/AXI4)
+ - [AXI Stream](https://github.com/osvvm/AXI4)
    - Transmitter
    - Receiver
- - [UART](https://opensource.ieee.org/osvvm/AXI4)
+ - [UART](https://github.com/osvvm/AXI4)
    - Transmitter - with error injection
    - Receiver - with error injection
 
@@ -91,11 +91,11 @@ run a simulation and see a live example
 of how to use the models.
 
 ## Downloading the libraries
-The library [OSVVM-Libraries](https://opensource.ieee.org/osvvm/OsvvmLibraries) 
+The library [OSVVM-Libraries](https://github.com/osvvm/OsvvmLibraries) 
 contains all of the OSVVM libraries as submodules.   
 
 Download the entire OSVVM model library using git clone with the "--recursive" flag:  
-        `$ git clone --recursive https://opensource.ieee.org/osvvm/OsvvmLibraries`
+        `$ git clone --recursive https://github.com/osvvm/OsvvmLibraries`
 
 ## Participating and Project Organization 
 The OSVVM project welcomes your participation with either 
