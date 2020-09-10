@@ -7,7 +7,7 @@
 #
 #
 #  Description:
-#        Top level script to compile the Axi4 models   
+#        Build OSVVM Libraries Verification Components and Libraries
 #
 #  Developed for:
 #        SynthWorks Design Inc.
@@ -39,8 +39,5 @@
 #
 include ./osvvm/osvvm.pro
 include ./common/common.pro
-include ./Axi4/common/common.pro
-include ./Axi4Lite/Axi4Lite.pro
-include ./Axi4/Axi4.pro
-include ./AxiStream/AxiStream.pro
+include ./AXI4/Axi4.pro
 include ./UART/UART.pro
