@@ -1,4 +1,4 @@
-#  File Name:         OsvvmLibraries.pro
+#  File Name:         RunAllTests.pro
 #  Revision:          STANDARD VERSION
 #
 #  Maintainer:        Jim Lewis      email:  jim@synthworks.com
@@ -7,7 +7,7 @@
 #
 #
 #  Description:
-#        Build OSVVM Libraries Verification Components and Libraries
+#        Run all OSVVM Libraries Verification Component tests   
 #
 #  Developed for:
 #        SynthWorks Design Inc.
@@ -37,7 +37,5 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-include ./osvvm/osvvm.pro
-include ./Common/Common.pro
-include ./AXI4/AXI4.pro
-include ./UART/UART.pro
+include ./AXI4/RunAllTests.pro
+include ./UART/RunAllTests.pro
