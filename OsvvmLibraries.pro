@@ -38,6 +38,6 @@
 #  limitations under the License.
 #
 include ./osvvm/osvvm.pro
-include ./common/common.pro
-include ./AXI4/Axi4.pro
+include ./Common/Common.pro
+include ./AXI4/AXI4.pro
 include ./UART/UART.pro
