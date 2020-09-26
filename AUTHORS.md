@@ -18,10 +18,10 @@
 ## Participating  
 The OSVVM project welcomes your participation with either 
 issue reports or pull requests.
-For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmLibraries/CONTRIBUTING.md)
+For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmLibraries/-/blob/master/CONTRIBUTING.md)
 
 You can find the project
-[Contributors here](https://opensource.ieee.org/osvvm/OsvvmLibraries/CONTRIBUTORS.md).
+[Contributors here](CONTRIBUTORS.md).
 
 
 

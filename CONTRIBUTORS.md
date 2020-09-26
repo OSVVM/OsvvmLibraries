@@ -21,9 +21,9 @@
 ## Participating  
 The OSVVM project welcomes your participation with either 
 issue reports or pull requests.
-For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmLibraries/CONTRIBUTING.md)
+For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmLibraries/-/blob/master/CONTRIBUTING.md)
 
-You can find the project [Authors here](https://opensource.ieee.org/osvvm/OsvvmLibraries/AUTHORS.md).
+You can find the project [Authors here](AUTHORS.md).
 
 #### Copyright and License
 Copyright (C) 2020 by [OSVVM Authors](AUTHORS.md)   
