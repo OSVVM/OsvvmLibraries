@@ -6,11 +6,6 @@ Using these libraries you can create a simple, readable, and
 powerful testbench that is suitable for either a simple FPGA block
 or a complex ASIC.
 
-## OSVVM is the #1 VHDL Verification Methodology 
-According to the [2018 Wilson Verification Survey](https://blogs.mentor.com/verificationhorizons/blog/2019/01/15/part-6-the-2018-wilson-research-group-functional-verification-study/), OSVVM is the:
- - #1 VHDL Verification Methodology
- - #1 FPGA Verification Methodology in Europe (ahead of SystemVerilog + UVM)
-
 ## The OSVVM Verification Script Library
 The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts) 
 provides a simple way to build the OSVVM libraries.
@@ -55,15 +50,17 @@ A verification component is implemented with an entity and architecture.
 The library currently contains the following repositories:
 
  - [AXI4](https://github.com/osvvm/AXI4)
-   - Master - coming soon
-   - Memory Slave - coming soon
+   - Master with bursting
+   - Memory Responder with bursting
+   - Transaction Responder - no bursting
  - [AXI4 Lite](https://github.com/osvvm/AXI4)
    - Master
-   - Transaction Slave 
+   - Memory Responder
+   - Transaction Responder 
  - [AXI Stream](https://github.com/osvvm/AXI4)
    - Transmitter
    - Receiver
- - [UART](https://github.com/osvvm/AXI4)
+ - [UART](https://github.com/osvvm/UART)
    - Transmitter - with error injection
    - Receiver - with error injection
 
