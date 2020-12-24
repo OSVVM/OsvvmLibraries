@@ -58,7 +58,7 @@ The library currently contains the following repositories:
  - [AXI Stream](https://github.com/osvvm/AXI4)
    - Transmitter
    - Receiver
- - [UART](https://github.com/osvvm/AXI4)
+ - [UART](https://github.com/osvvm/UART)
    - Transmitter - with error injection
    - Receiver - with error injection
 
