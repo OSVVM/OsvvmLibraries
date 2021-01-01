@@ -1,19 +1,14 @@
 # Change Log
-All notable changes to this project will be documented in this file. Including: Recommended groupings for changes include: 
-```diff
-+ Added, + Changed, + Deprecated, + Removed, + Fixed, + Security
- +
-```
-The format is based on [Keep a Changelog](http://keepachangelog.com/).
+OsvvmLibraries collects together all of the OSVVM family of repositories as submodules.
+Changes for the OSVVM project are documented in 
+the CHANGELOG files for each submodule.   
+Links to these files are below.
 
-## Submodule Changes
-VerificationIP collects together all of the OSVVM family of repositories as submodules.   The following list links to the CHANGELOG for each aspect of the project. 
-
-- [OSVVM](https://opensource.ieee.org/osvvm/OSVVM/-/blob/master/CHANGELOG.md) 
-- [OSVVM-Common](https://opensource.ieee.org/osvvm/OSVVM-Common/-/blob/master/CHANGELOG.md) 
-- [OSVVM-Scripts](https://opensource.ieee.org/osvvm/OSVVM-Scripts/-/blob/master/CHANGELOG.md) 
-- [AXI4](https://opensource.ieee.org/osvvm/AXI4/-/blob/master/CHANGELOG.md) 
-- [UART](https://opensource.ieee.org/osvvm/UART/-/blob/master/CHANGELOG.md) 
+- [OSVVM](https://github.com/OSVVM/osvvm/blob/master/CHANGELOG.md) 
+- [OSVVM-Common](https://github.com/OSVVM/OSVVM-Common/blob/master/CHANGELOG.md) 
+- [OSVVM-Scripts](https://github.com/OSVVM/OSVVM-Scripts/blob/master/CHANGELOG.md) 
+- [AXI4](https://github.com/OSVVM/AXI4/blob/master/CHANGELOG.md) 
+- [UART](https://github.com/OSVVM/UART/blob/master/CHANGELOG.md) 
 
 ## [2020.05] 2020-May
 
