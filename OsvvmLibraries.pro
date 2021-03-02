@@ -39,5 +39,5 @@
 #
 include ./osvvm/osvvm.pro
 include ./Common/Common.pro
-include ./AXI4/AXI4.pro
 include ./UART/UART.pro
+include ./AXI4/AXI4.pro
