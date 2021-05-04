@@ -37,6 +37,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+SetVHDLVersion 2019
+
 include ./osvvm/osvvm.pro
 include ./Common/Common.pro
 include ./UART/UART.pro
