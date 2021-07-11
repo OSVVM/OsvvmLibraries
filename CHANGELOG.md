@@ -22,8 +22,8 @@ See Submodules
 - README.md 
  
 ## Copyright and License
-Copyright (C) 2006-2020 by [SynthWorks Design Inc.](http://www.synthworks.com/)   
-Copyright (C) 2020 by [OSVVM contributors](CONTRIBUTOR.md)   
+Copyright (C) 2006-2021 by [SynthWorks Design Inc.](http://www.synthworks.com/)   
+Copyright (C) 2020-2021 by [OSVVM contributors](CONTRIBUTOR.md)   
 
 This file is part of OSVVM.
 
