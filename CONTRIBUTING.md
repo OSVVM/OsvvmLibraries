@@ -79,7 +79,7 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 
 #### Copyright and License
 Copyright (C) 2006-2020 by [SynthWorks Design Inc.](http://www.synthworks.com/)  
-Copyright (C) 2020 by [OSVVM contributors](CONTRIBUTORS.md)   
+Copyright (C) 2020-2021 by [OSVVM contributors](CONTRIBUTORS.md)   
 
 This file is part of OSVVM.
 
