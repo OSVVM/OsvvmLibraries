@@ -1,0 +1,85 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'
+
+jobs:
+
+
+  lin:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        backend:
+          - mcode
+          - llvm
+          - gcc
+    name: '🐧 Ubuntu · ${{ matrix.backend }}'
+    steps:
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v2
+      with:
+        path: OsvvmLibraries
+        submodules: recursive
+
+    - name: '⚙️ Setup GHDL'
+      uses: ghdl/setup-ghdl-ci@master
+      with:
+        backend: ${{ matrix.backend }}
+
+    - name: '🛠️ Install tcl'
+      run: |
+        sudo apt update -qq
+        sudo apt install -y tcl
+
+    - name: '🚧 Run tests'
+      run: tclsh ./OsvvmLibraries/.github/test.tcl
+
+
+  win:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include: [
+          #{icon: '🟪', bits: "32", arch: i686,   pkg: "llvm"  }, ! Not yet functional
+          {icon: '🟦', bits: '64', arch: x86_64, pkg: 'llvm'  },
+          {icon: '🟪', bits: '32', arch: i686,   pkg: 'mcode' },
+          #{icon: '🟦', bits: "64", arch: x86_64, pkg: "mcode" }, ! simulation with mcode is not yet supported on win64
+        ]
+    name: '${{ matrix.icon }} MSYS2 · ${{ matrix.pkg }}${{ matrix.bits }} '
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+
+    - name: '${{ matrix.icon }} Setup MSYS2'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW${{ matrix.bits }}
+        update: true
+        install: >
+          git
+          mingw-w64-${{ matrix.arch }}-tcl
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v2
+      with:
+        path: OsvvmLibraries
+        submodules: recursive
+
+    - name: '⚙️ Setup GHDL'
+      uses: ghdl/setup-ghdl-ci@master
+      with:
+        backend: ${{ matrix.pkg }}
+
+    - name: '🚧 Run tests'
+      run: tclsh ./OsvvmLibraries/.github/test.tcl
