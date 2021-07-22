@@ -19,7 +19,7 @@ jobs:
         backend:
           - mcode
           - llvm
-          - gcc
+#          - gcc
     name: '🐧 Ubuntu · ${{ matrix.backend }}'
     steps:
 
