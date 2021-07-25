@@ -26,7 +26,7 @@ For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmL
 You can find the project [Authors here](AUTHORS.md).
 
 #### Copyright and License
-Copyright (C) 2021 by [OSVVM Authors](AUTHORS.md)   
+Copyright (C) 2020 - 2021 by [OSVVM Authors](AUTHORS.md)   
 
 This file is part of OSVVM.
 
