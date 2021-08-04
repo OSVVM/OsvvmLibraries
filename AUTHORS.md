@@ -26,7 +26,7 @@ You can find the project
 
 
 #### Copyright and License
-Copyright (C) 2020 by [OSVVM Authors](AUTHORS.md)   
+Copyright (C) 2020 - 2021 by [OSVVM Authors](AUTHORS.md)   
 
 This file is part of OSVVM.
 
