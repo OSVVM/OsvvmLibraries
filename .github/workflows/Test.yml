@@ -49,9 +49,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ubuntu-ghdl-${{ matrix.backend }}-log
-        path: 
-        - OsvvmLibraries_RunAllTests_ghdl.log
-        - OsvvmLibraries_RunAllTests_ghdl.yml
+        path: |
+          OsvvmLibraries_RunAllTests_ghdl.log
+          OsvvmLibraries_RunAllTests_ghdl.yml
         if-no-files-found: error
 
 
@@ -103,7 +103,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: msys2-ghdl-${{ matrix.pkg }}${{ matrix.bits }}-log
-        path: 
-        - OsvvmLibraries_RunAllTests_ghdl.log
-        - OsvvmLibraries_RunAllTests_ghdl.yml
+        path: |
+          OsvvmLibraries_RunAllTests_ghdl.log
+          OsvvmLibraries_RunAllTests_ghdl.yml
         if-no-files-found: error
