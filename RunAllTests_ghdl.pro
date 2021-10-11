@@ -39,8 +39,8 @@
 #
 include ./UART/RunAllTests.pro
 # include ./AXI4/RunAllTests.pro
-include ../OsvvmLibraries/AXI4/AxiStream/RunAllTests.pro
-include ../OsvvmLibraries/AXI4/Axi4/RunAllTests.pro
+include ./AXI4/AxiStream/RunAllTests.pro
+include ./AXI4/Axi4/RunAllTests.pro
 # Next one has failures.  Keeping it commented out until Axi4Lite updated
-# include ../OsvvmLibraries/AXI4/Axi4Lite/RunAllTests.pro
+# include ./AXI4/Axi4Lite/RunAllTests.pro
 
