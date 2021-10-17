@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 3
       matrix:
         backend:
           - mcode
@@ -59,7 +58,6 @@ jobs:
     runs-on: windows-latest
     strategy:
       fail-fast: false
-      max-parallel: 2
       matrix:
         include:
           #- {icon: '🟪', msys: 'MINGW32', arch: i686,        pkg: "llvm" } ! Not yet functional
