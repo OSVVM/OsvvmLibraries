@@ -81,6 +81,7 @@ jobs:
         install: >
           git
           mingw-w64-${{ matrix.arch }}-tcl
+          mingw-w64-${{ matrix.arch }}-tcllib
 
     - name: '🧰 Checkout'
       uses: actions/checkout@v2
