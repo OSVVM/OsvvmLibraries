@@ -37,7 +37,7 @@ jobs:
     - name: '🛠️ Install tcl'
       run: |
         sudo apt update -qq
-        sudo apt install -y tcl
+        sudo apt install -y tcl tcllib
 
     - name: '🚧 Run tests'
       run: tclsh ./OsvvmLibraries/.github/test.tcl
@@ -81,6 +81,7 @@ jobs:
         install: >
           git
           mingw-w64-${{ matrix.arch }}-tcl
+          mingw-w64-${{ matrix.arch }}-tcllib
 
     - name: '🧰 Checkout'
       uses: actions/checkout@v2
