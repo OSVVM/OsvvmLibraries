@@ -51,6 +51,9 @@ jobs:
         path: |
           OsvvmLibraries_RunAllTests_ghdl.log
           OsvvmLibraries_RunAllTests_ghdl.yml
+          OsvvmLibraries_RunAllTests_ghdl.html
+          OsvvmLibraries_RunAllTests_ghdl.xml
+          reports/*.html
         if-no-files-found: error
 
 
@@ -106,4 +109,7 @@ jobs:
         path: |
           OsvvmLibraries_RunAllTests_ghdl.log
           OsvvmLibraries_RunAllTests_ghdl.yml
+          OsvvmLibraries_RunAllTests_ghdl.html
+          OsvvmLibraries_RunAllTests_ghdl.xml
+          reports/*.html
         if-no-files-found: error
