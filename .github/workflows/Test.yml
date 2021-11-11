@@ -121,7 +121,7 @@ jobs:
         if-no-files-found: error
 
     - name: 📊 Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
       if: always()
       with:
         files: OsvvmLibraries_RunAllTests_ghdl.xml
