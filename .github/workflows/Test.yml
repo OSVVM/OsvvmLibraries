@@ -55,7 +55,13 @@ jobs:
           OsvvmLibraries_RunAllTests_ghdl.xml
           reports/*.html
         if-no-files-found: error
-
+        
+    - name: 📊 Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: OsvvmLibraries_RunAllTests_ghdl.xml
+        comment_title: OSVVM Verification Component Regression Suite
 
   win:
     runs-on: windows-latest
@@ -113,3 +119,10 @@ jobs:
           OsvvmLibraries_RunAllTests_ghdl.xml
           reports/*.html
         if-no-files-found: error
+
+    - name: 📊 Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: OsvvmLibraries_RunAllTests_ghdl.xml
+        comment_title: OSVVM Verification Component Regression Suite
