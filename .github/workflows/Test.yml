@@ -60,8 +60,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
+        comment_title: "OSVVM Verification Component Regression Suite"
         files: OsvvmLibraries_RunAllTests_ghdl.xml
-        comment_title: OSVVM Verification Component Regression Suite
 
   win:
     runs-on: windows-latest
@@ -124,5 +124,5 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
       if: always()
       with:
+        comment_title: "OSVVM Verification Component Regression Suite"
         files: OsvvmLibraries_RunAllTests_ghdl.xml
-        comment_title: OSVVM Verification Component Regression Suite
