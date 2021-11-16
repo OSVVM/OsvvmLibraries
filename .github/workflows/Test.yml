@@ -56,12 +56,6 @@ jobs:
           reports/*.html
         if-no-files-found: error
         
-    - name: 📊 Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        comment_title: "OSVVM Verification Component Regression Suite"
-        files: OsvvmLibraries_RunAllTests_ghdl.xml
 
   win:
     runs-on: windows-latest
@@ -118,9 +112,20 @@ jobs:
           reports/*.html
         if-no-files-found: error
 
+
+  publish-test-results:
+    if: always()
+    needs: [lin, win]
+    runs-on: ubuntu-latest
+    name: 📊 Publish Unit Tests Results
+    steps:
+
+    - name: '📥 Download artifact: package'
+      uses: actions/download-artifact@v2
+
     - name: 📊 Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
         comment_title: "OSVVM Verification Component Regression Suite"
-        files: OsvvmLibraries_RunAllTests_ghdl.xml
+        files: ./**/OsvvmLibraries_RunAllTests_ghdl.xml
