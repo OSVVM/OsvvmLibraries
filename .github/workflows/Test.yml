@@ -56,12 +56,6 @@ jobs:
           reports/*.html
         if-no-files-found: error
         
-    - name: 📊 Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        comment_title: "OSVVM Verification Component Regression Suite"
-        files: OsvvmLibraries_RunAllTests_ghdl.xml
 
   win:
     runs-on: windows-latest
@@ -69,12 +63,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #- {icon: '🟪', msys: 'MINGW32', arch: i686,        pkg: "llvm" } ! Not yet functional
-          - {icon: '🟦', msys: 'MINGW64', arch: x86_64,      pkg: 'llvm' }
-          - {icon: '🟨', msys: 'UCRT64',  arch: ucrt-x86_64, pkg: 'llvm' } #! Experimental
-          - {icon: '🟪', msys: 'MINGW32', arch: i686,        pkg: 'mcode' }
-          #- {icon: '🟦', msys: 'MINGW64', arch: x86_64,      pkg: "mcode" } ! Simulation with mcode is not yet supported on win64
-          #- {icon: '🟨', msys: 'UCRT64',  arch: x86_64,      pkg: "mcode" } ! Experimental; Simulation with mcode is not yet supported on win64
+          #- {icon: '🟪', msys: 'MINGW32', pkg: "llvm"  } ! Not yet functional
+          - {icon: '🟦', msys: 'MINGW64', pkg: 'llvm'  }
+          - {icon: '🟨', msys: 'UCRT64',  pkg: 'llvm'  } #! Experimental
+          - {icon: '🟪', msys: 'MINGW32', pkg: 'mcode' }
+          #- {icon: '🟦', msys: 'MINGW64', pkg: "mcode" } ! Simulation with mcode is not yet supported on win64
+          #- {icon: '🟨', msys: 'UCRT64',  pkg: "mcode" } ! Experimental; Simulation with mcode is not yet supported on win64
     name: '${{ matrix.icon }} ${{ matrix.msys }} · ${{ matrix.pkg }}'
     defaults:
       run:
@@ -86,10 +80,8 @@ jobs:
       with:
         msystem: ${{ matrix.msys }}
         update: true
-        install: >
-          git
-          mingw-w64-${{ matrix.arch }}-tcl
-          mingw-w64-${{ matrix.arch }}-tcllib
+        install: git
+        pacboy: tcl:p tcllib:p
 
     - name: '🧰 Checkout'
       uses: actions/checkout@v2
@@ -120,9 +112,20 @@ jobs:
           reports/*.html
         if-no-files-found: error
 
+
+  publish-test-results:
+    if: always()
+    needs: [lin, win]
+    runs-on: ubuntu-latest
+    name: 📊 Publish Unit Tests Results
+    steps:
+
+    - name: '📥 Download artifact: package'
+      uses: actions/download-artifact@v2
+
     - name: 📊 Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
         comment_title: "OSVVM Verification Component Regression Suite"
-        files: OsvvmLibraries_RunAllTests_ghdl.xml
+        files: ./**/OsvvmLibraries_RunAllTests_ghdl.xml
