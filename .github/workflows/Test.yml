@@ -124,9 +124,8 @@ jobs:
       uses: actions/download-artifact@v2
 
     - name: 📊 Publish Unit Test Results
-      uses: dorny/test-reporter@v1
+      uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        name: "OSVVM Verification Component Regression Suite"
-        path: './**/OsvvmLibraries_RunAllTests_ghdl.xml'
-        reporter: jest-junit
+        comment_title: "OSVVM Verification Component Regression Suite"
+        files: ./**/OsvvmLibraries_RunAllTests_ghdl.xml
