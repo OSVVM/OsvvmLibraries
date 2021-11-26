@@ -22,39 +22,39 @@ jobs:
     name: '🐧 Ubuntu · ${{ matrix.backend }}'
     steps:
 
-    - name: '🧰 Checkout'
-      uses: actions/checkout@v2
-      with:
-        path: OsvvmLibraries
-        submodules: recursive
+      - name: '🧰 Checkout'
+        uses: actions/checkout@v2
+        with:
+          path: OsvvmLibraries
+          submodules: recursive
 
-    - name: '⚙️ Setup GHDL'
-      uses: ghdl/setup-ghdl-ci@master
-      with:
-        backend: ${{ matrix.backend }}
+      - name: '⚙️ Setup GHDL'
+        uses: ghdl/setup-ghdl-ci@master
+        with:
+          backend: ${{ matrix.backend }}
 
-    - name: '🛠️ Install tcl'
-      run: |
-        sudo apt update -qq
-        sudo apt install -y tcl tcllib
+      - name: '🛠️ Install tcl'
+        run: |
+          sudo apt update -qq
+          sudo apt install -y tcl tcllib
 
-    - name: '🚧 Run tests'
-      run: tclsh ./OsvvmLibraries/.github/test.tcl
+      - name: '🚧 Run tests'
+        run: tclsh ./OsvvmLibraries/.github/test.tcl
 
-    - name: 'Collect Artifacts'
-      run: mv logs/*/OsvvmLibraries_RunAllTests_ghdl.log OsvvmLibraries_RunAllTests_ghdl.log
-      
-    - name: '📤 Upload artifact: logs'
-      uses: actions/upload-artifact@v2
-      with:
-        name: ubuntu-ghdl-${{ matrix.backend }}-log
-        path: |
-          OsvvmLibraries_RunAllTests_ghdl.log
-          OsvvmLibraries_RunAllTests_ghdl.yml
-          OsvvmLibraries_RunAllTests_ghdl.html
-          OsvvmLibraries_RunAllTests_ghdl.xml
-          reports/*.html
-        if-no-files-found: error
+      - name: 'Collect Artifacts'
+        run: mv logs/*/OsvvmLibraries_RunAllTests_ghdl.log OsvvmLibraries_RunAllTests_ghdl.log
+        
+      - name: '📤 Upload artifact: logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ubuntu-ghdl-${{ matrix.backend }}-log
+          path: |
+            OsvvmLibraries_RunAllTests_ghdl.log
+            OsvvmLibraries_RunAllTests_ghdl.yml
+            OsvvmLibraries_RunAllTests_ghdl.html
+            OsvvmLibraries_RunAllTests_ghdl.xml
+            reports/*.html
+          if-no-files-found: error
         
 
   win:
@@ -75,42 +75,42 @@ jobs:
         shell: msys2 {0}
     steps:
 
-    - name: '${{ matrix.icon }} Setup MSYS2'
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: ${{ matrix.msys }}
-        update: true
-        install: git
-        pacboy: tcl:p tcllib:p
+      - name: '${{ matrix.icon }} Setup MSYS2'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msys }}
+          update: true
+          install: git
+          pacboy: tcl:p tcllib:p
 
-    - name: '🧰 Checkout'
-      uses: actions/checkout@v2
-      with:
-        path: OsvvmLibraries
-        submodules: recursive
+      - name: '🧰 Checkout'
+        uses: actions/checkout@v2
+        with:
+          path: OsvvmLibraries
+          submodules: recursive
 
-    - name: '⚙️ Setup GHDL'
-      uses: ghdl/setup-ghdl-ci@master
-      with:
-        backend: ${{ matrix.pkg }}
+      - name: '⚙️ Setup GHDL'
+        uses: ghdl/setup-ghdl-ci@master
+        with:
+          backend: ${{ matrix.pkg }}
 
-    - name: '🚧 Run tests'
-      run: tclsh ./OsvvmLibraries/.github/test.tcl
+      - name: '🚧 Run tests'
+        run: tclsh ./OsvvmLibraries/.github/test.tcl
 
-    - name: 'Collect Artifacts'
-      run: mv logs/*/OsvvmLibraries_RunAllTests_ghdl.log OsvvmLibraries_RunAllTests_ghdl.log
-      
-    - name: '📤 Upload artifact: logs'
-      uses: actions/upload-artifact@v2
-      with:
-        name: msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}-log
-        path: |
-          OsvvmLibraries_RunAllTests_ghdl.log
-          OsvvmLibraries_RunAllTests_ghdl.yml
-          OsvvmLibraries_RunAllTests_ghdl.html
-          OsvvmLibraries_RunAllTests_ghdl.xml
-          reports/*.html
-        if-no-files-found: error
+      - name: 'Collect Artifacts'
+        run: mv logs/*/OsvvmLibraries_RunAllTests_ghdl.log OsvvmLibraries_RunAllTests_ghdl.log
+        
+      - name: '📤 Upload artifact: logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}-log
+          path: |
+            OsvvmLibraries_RunAllTests_ghdl.log
+            OsvvmLibraries_RunAllTests_ghdl.yml
+            OsvvmLibraries_RunAllTests_ghdl.html
+            OsvvmLibraries_RunAllTests_ghdl.xml
+            reports/*.html
+          if-no-files-found: error
 
 
   publish-test-results:
@@ -120,14 +120,17 @@ jobs:
     name: 📊 Publish Unit Tests Results
     steps:
 
-    - name: '📥 Download artifact: package'
-      uses: actions/download-artifact@v2
-      with:
-        path: artifacts
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v2
 
-    - name: 📊 Publish Unit Test Results
-      uses: dorny/test-reporter@v1
-      with:
-        name: OSVVM VC Regression Results
-        path: artifacts/**/*.xml
-        reporter: java-junit
+      - name: '📥 Download artifact: package'
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: 📊 Publish Unit Test Results
+        uses: dorny/test-reporter@v1
+        with:
+          name: OSVVM VC Regression Results
+          path: artifacts/**/*.xml
+          reporter: java-junit
