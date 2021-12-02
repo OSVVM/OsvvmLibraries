@@ -54,6 +54,7 @@ jobs:
             OsvvmLibraries_RunAllTests_ghdl.html
             OsvvmLibraries_RunAllTests_ghdl.xml
             reports/*.html
+            reports/**/*.html
           if-no-files-found: error
         
 
