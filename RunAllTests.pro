@@ -37,5 +37,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-include ./AXI4/RunAllTests.pro
-include ./UART/RunAllTests.pro
+if {[DirectoryExists AXI4]} { 
+  include ./AXI4/RunAllTests.pro
+}
+if {[DirectoryExists UART]} { 
+  include ./UART/RunAllTests.pro
+}
