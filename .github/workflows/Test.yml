@@ -41,9 +41,6 @@ jobs:
       - name: '🚧 Run tests'
         run: tclsh ./OsvvmLibraries/.github/test.tcl
 
-      - name: 'Collect Artifacts'
-        run: mv logs/*/*.log .
-        
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v2
         with:
@@ -55,6 +52,7 @@ jobs:
             *.xml
             reports/*.html
             reports/**/*.html
+            logs/**/*.*
           if-no-files-found: error
         
 
@@ -98,9 +96,6 @@ jobs:
       - name: '🚧 Run tests'
         run: tclsh ./OsvvmLibraries/.github/test.tcl
 
-      - name: 'Collect Artifacts'
-        run: mv logs/*/*.log .
-        
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v2
         with:
@@ -111,6 +106,8 @@ jobs:
             *.html
             *.xml
             reports/*.html
+            reports/**/*.html
+            logs/**/*.*
           if-no-files-found: error
 
 
