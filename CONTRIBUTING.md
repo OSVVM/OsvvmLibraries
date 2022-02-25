@@ -6,6 +6,8 @@ If you would like to propose code changes (aka pull requests), you must have fil
 
 Before contributing code to this repository, please propose your change via GitLab issues to first discuss the change you wish to make.   When adding features, we want to make sure to have consistency (such as naming) with other features - including features in other OSVVM packages.   After discussion and agreement, then post a GitLab pull request. 
 
+Looking for ideas on what to contribute, please see our [Help Wanted List](HELPWANTED.md).
+
 Please note that this project adheres to IEEE's [code of conduct](https://www.ieee.org/content/dam/ieee-org/ieee/web/org/about/ieee_code_of_conduct.pdf), we count on you to follow it in all your interactions with the project. Instances of abusive, harassing, or otherwise unacceptable behavior shall be reported to [supportcenter@ieee.org](mailto:supportcenter@ieee.org). 
 
 ## Pull Request Process
