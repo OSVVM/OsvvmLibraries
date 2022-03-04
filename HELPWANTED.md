@@ -18,7 +18,7 @@ We are particularly interested in the following verification components:
 * Avalon
 * I2C
 * Ehternet
-* SPI
+* SPI 
 
 # Copyright and License
 Copyright (C) 2020 - 2022 by [OSVVM Authors](AUTHORS.md)   
