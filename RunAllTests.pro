@@ -43,3 +43,7 @@ if {[DirectoryExists AXI4]} {
 if {[DirectoryExists UART]} { 
   include ./UART/RunAllTests.pro
 }
+if {[DirectoryExists DpRam]} { 
+  include ./DpRam/RunAllTests.pro
+}
+
