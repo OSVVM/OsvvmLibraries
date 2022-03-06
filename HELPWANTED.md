@@ -15,10 +15,10 @@ including support for code reviews.
 
 We are particularly interested in the following verification components:
 * Wishbone
-* Avalon
+* Avalon & Avalon Stream
 * I2C
-* Ehternet
-* SPI 
+* Ethernet
+* SPI
 
 # Copyright and License
 Copyright (C) 2020 - 2022 by [OSVVM Authors](AUTHORS.md)   
