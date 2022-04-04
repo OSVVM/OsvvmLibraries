@@ -11,5 +11,4 @@ SetCoverageAnalyzeEnable false
 include RunAllTests.pro
 include RunAllTestsVti.pro
 
-# Leave Simulate coverage enabled until completion
-
+SetCoverageSimulateEnable false
