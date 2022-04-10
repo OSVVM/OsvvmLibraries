@@ -6,35 +6,59 @@ Using these libraries you can create a simple, readable, and
 powerful testbench that is suitable for either a simple FPGA block
 or a complex ASIC.
 
-## The OSVVM Verification Script Library
-The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts) 
-provides a simple way to build the OSVVM libraries.
-The scripts are so simple that they can be read
-by anyone and also serve as documentation of compilation order.
-Hence, if you want to build your project
-your own way, the OSVVM *.pro script files serve as
-a definition for compile (aka analyze) order.
-Under the hood, OSVVM scripts are tcl plus 
-tcl procedures.   
+OSVVM is developed by the same VHDL experts who
+have helped develop VHDL standards.
+We have used our expert VHDL skills to create
+advanced verification capabilities that:
 
- [Documentation for the OSVVM script library can be found here](https://github.com/OSVVM/Documentation)
+- Are simple to use and feel like built-in language features.
+- Maximize reuse and reduce project schedule.
+- Facilitate readabilty and reviewability by the whole team including software and system engineers.
+- Facilitate debug with HTML based Test Suite and Test Case reporting.
+- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models.
+
+## Learning OSVVM
+You can find an overview of OSVVM at [osvvm.github.io](https://osvvm.github.io).
+Alternately you can find our pdf documentation at 
+[OSVVM Documentation Repository](https://github.com/OSVVM/Documentation#readme).
+
+You can also learn OSVVM by taking the class, [Advanced VHDL Verification and Testbenches - OSVVM&trade; BootCamp](https://synthworks.com/vhdl_testbench_verification.htm)
+
+## Download OSVVM 
+OSVVM is available as either a git repository 
+[OsvvmLibraries](https://github.com/osvvm/OsvvmLibraries) 
+or zip file from [osvvm.org Downloads Page](https://osvvm.org/downloads).
+
+On GitHub, all OSVVM libraries are a submodule of the repository OsvvmLibraries. Download all OSVVM libraries using git clone with the “–recursive” flag: 
+```    
+  $ git clone --recursive https://github.com/osvvm/OsvvmLibraries
+```
+        
+## Run The Demos
+A great way to get oriented with OSVVM is to run the demos.
+For directions on running the demos, see [OSVVM Scripts](https://github.com/osvvm/OSVVM-Scripts#readme).
+
+
+## The OSVVM Verification Script Library
+The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts#readme) 
+provides a simulator independent scripting 
+approach for running simulations.
+Currently it supports Aldec's Riviera-PRO/Active-HDL, 
+Siemen's QuestaSim/ModelSim, GHDL, Synopsys' VCS, and Cadence's Xcelium
  
 ## The OSVVM Utility Library 
-The [OSVVM utility library](https://github.com/osvvm/osvvm) offers the same capabilities as those provided by other verification languages (such as SystemVerilog and UVM):
-
- - Transaction-Level Modeling
- - Constrained Random test generation
- - Functional Coverage with hooks for UCIS coverage database integration
- - Intelligent Coverage Random test generation
- - Utilities for testbench process synchronization generation
- - Utilities for clock and reset generation
- - Transcript files
- - Error logging and reporting - Alerts and Affirmations
- - Message filtering - Logs
- - Scoreboards and FIFOs (data structures for verification)
- - Memory models
- 
- [Documentation for the Utility library can be found here](https://github.com/OSVVM/Documentation)
+The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.  These include:   
+  - Transaction-Level Modeling (TbUtilPkg, ResolutionPkg)
+  - Constrained Random test generation (RandomPkg)
+  - Functional Coverage with hooks for UCIS coverage database integration (CoveragePkg)
+  - Intelligent Coverage Random test generation  (CoveragePkg)
+  - Utilities for testbench process synchronization generation (TbUtilPkg)
+  - Utilities for clock and reset generation (TbUtilPkg)
+  - Transcript files (TranscriptPkg)
+  - Error logging and reporting - Alerts and Affirmations (AlertLogPkg)
+  - Message filtering - Logs (AlertLogPkg)
+  - Scoreboards and FIFOs (data structures for verification) (ScoreboardGenericPkg)
+  - Memory models (MemoryPkg)
  
 ## The OSVVM Model Independent Transaction Library
 The [OSVVM Common Library](https://github.com/osvvm/OSVVM-Common)
@@ -46,27 +70,31 @@ OSVVM verification component.
 ## The OSVVM Verification Component Libraries
 The OSVVM Verification Component Libraries are a growing set of 
 verification components commonly used for FPGA and ASIC verification.
-A verification component is implemented with an entity and architecture.  
+Each family of verification components is a separate git repository. 
 The library currently contains the following repositories:
 
- - [AXI4](https://github.com/osvvm/AXI4)
-   - Master with bursting
-   - Memory Responder with bursting
-   - Transaction Responder - no bursting
- - [AXI4 Lite](https://github.com/osvvm/AXI4)
-   - Master
-   - Memory Responder
-   - Transaction Responder 
- - [AXI Stream](https://github.com/osvvm/AXI4)
-   - Transmitter
-   - Receiver
- - [UART](https://github.com/osvvm/UART)
-   - Transmitter - with error injection
-   - Receiver - with error injection
+  - [OSVVM Common Library Repository](https://github.com/osvvm/OSVVM-Common)
+    - Required for all OSVVM Verification Components
+    - Defines OSVVMs Model Independent Transactions (Address Bus and Stream)
+  - [AXI4](https://github.com/osvvm/AXI4#readme)
+    - Manager with bursting
+    - Memory Subordinate with bursting
+    - Transaction Subordinate - no bursting
+  - [AXI4 Lite](https://github.com/osvvm/AXI4#readme)
+    - Manager
+    - Memory Subordinate
+    - Transaction Subordinate 
+  - [AXI Stream](https://github.com/osvvm/AXI4#readme)
+    - Transmitter
+    - Receiver
+  - [UART](https://github.com/osvvm/UART#readme)
+    - Transmitter - with error injection
+    - Receiver - with error injection
+  - [DpRam Repository](https://github.com/osvvm/DpRam#readme) 
+    - DpRam behavioral model 
+    - DpRam Manager VC to read and write to the DpRam interface
 
-  [Documentation for the OSVVM Verification Component libraries can be found here](https://github.com/OSVVM/Documentation)
-
-## OSVVM Interfaces 
+## OSVVM Verification Component Interfaces 
 OSVVM verification components use records for the 
 transaction interfaces, so connecting them to your 
 testbench is simple - connect only a single signal.
@@ -86,13 +114,6 @@ interfaces.
 Testbenches are in the Git repository, so you can 
 run a simulation and see a live example 
 of how to use the models.
-
-## Downloading the libraries
-The library [OSVVM-Libraries](https://github.com/osvvm/OsvvmLibraries) 
-contains all of the OSVVM libraries as submodules.   
-
-Download the entire OSVVM model library using git clone with the "--recursive" flag:  
-        `$ git clone --recursive https://github.com/osvvm/OsvvmLibraries`
 
 ## Participating and Project Organization 
 The OSVVM project welcomes your participation with either 
