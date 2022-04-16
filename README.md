@@ -1,7 +1,9 @@
-# The OSVVM VHDL Verification Libraries
-OSVVM is a VHDL verification framework, verification utility library, 
-verification component library, and a scripting flow 
-that simplifies your FPGA or ASIC verification project from start to finish. 
+# The OSVVM VHDL Verification Libraries and Scripts
+OSVVM is an advanced verification methodology that
+defines a VHDL verification framework, verification utility library, 
+verification component library, and a scripting flow
+that simplifies your FPGA or ASIC verification project 
+from start to finish.
 Using these libraries you can create a simple, readable, and 
 powerful testbench that is suitable for either a simple FPGA block
 or a complex ASIC.
@@ -11,11 +13,13 @@ have helped develop VHDL standards.
 We have used our expert VHDL skills to create
 advanced verification capabilities that:
 
-- Are simple to use and feel like built-in language features.
+- Are simple to use and work like built-in language features.
 - Maximize reuse and reduce project schedule.
 - Facilitate readabilty and reviewability by the whole team including software and system engineers.
-- Facilitate debug with HTML based Test Suite and Test Case reporting.
-- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models.
+- Facilitate debug with HTML based test suite and test case reporting.
+- Facilitate continuous integration (CI/CD) with JUnit XML test suite reporting.
+- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering.
+- Rival the verification capabilities of SystemVerilog + UVM.
 
 ## Learning OSVVM
 You can find an overview of OSVVM at [osvvm.github.io](https://osvvm.github.io).
@@ -44,10 +48,12 @@ The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts#r
 provides a simulator independent scripting 
 approach for running simulations.
 Currently it supports Aldec's Riviera-PRO/Active-HDL, 
-Siemen's QuestaSim/ModelSim, GHDL, Synopsys' VCS, and Cadence's Xcelium
+Siemen's QuestaSim/ModelSim, GHDL, Synopsys' VCS, and Cadence's Xcelium.
+Our motto: "One Script to Run them ALL"
  
-## The OSVVM Utility Library 
-The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.  These include:   
+## The OSVVM VHDL Verification Utility Library 
+The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.  
+These include:   
   - Transaction-Level Modeling (TbUtilPkg, ResolutionPkg)
   - Constrained Random test generation (RandomPkg)
   - Functional Coverage with hooks for UCIS coverage database integration (CoveragePkg)
@@ -62,10 +68,13 @@ The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements ad
  
 ## The OSVVM Model Independent Transaction Library
 The [OSVVM Common Library](https://github.com/osvvm/OSVVM-Common)
-defines OSVVM's Model Independent Transactions for 
-Address Bus and Streaming Interfaces.
-The OSVVM common library is required to use any
-OSVVM verification component. 
+defines OSVVM's Model Independent Transactions (MIT).
+MIT defines a common communication interface (record based)
+and transaction API for Address Bus and Streaming Interface.
+Using MIT makes verification component development as easy
+as any "Lite" approach to verification.
+Going further using a common transaction API simplifies
+the test development process.
 
 ## The OSVVM Verification Component Libraries
 The OSVVM Verification Component Libraries are a growing set of 
