@@ -52,7 +52,7 @@ Siemen's QuestaSim/ModelSim, GHDL, Synopsys' VCS, and Cadence's Xcelium.
 Our motto: "One Script to Run them ALL"
  
 ## The OSVVM VHDL Verification Utility Library 
-The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.  
+The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.
 These include:   
   - Transaction-Level Modeling (TbUtilPkg, ResolutionPkg)
   - Constrained Random test generation (RandomPkg)
