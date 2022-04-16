@@ -17,7 +17,7 @@ advanced verification capabilities that:
 - Maximize reuse and reduce project schedule.
 - Facilitate readabilty and reviewability by the whole team including software and system engineers.
 - Facilitate debug with HTML based test suite and test case reporting.
-- Facilitate continuous integration (CI/CD) with JUnit XML test suite reporting.
+- Provide continuous integration (CI/CD) support with JUnit XML test suite reporting.
 - Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering.
 - Rival the verification capabilities of SystemVerilog + UVM.
 
@@ -28,7 +28,7 @@ Alternately you can find our pdf documentation at
 
 You can also learn OSVVM by taking the class, [Advanced VHDL Verification and Testbenches - OSVVM&trade; BootCamp](https://synthworks.com/vhdl_testbench_verification.htm)
 
-## Download OSVVM 
+## Download OSVVM Libraries
 OSVVM is available as either a git repository 
 [OsvvmLibraries](https://github.com/osvvm/OsvvmLibraries) 
 or zip file from [osvvm.org Downloads Page](https://osvvm.org/downloads).
@@ -65,6 +65,8 @@ These include:
   - Message filtering - Logs (AlertLogPkg)
   - Scoreboards and FIFOs (data structures for verification) (ScoreboardGenericPkg)
   - Memory models (MemoryPkg)
+  - Test Reporting - Test Suite and Test Case in HTML 
+  - Continuous Integration (CI/CD) Support - with JUnit XML reports
  
 ## The OSVVM Model Independent Transaction Library
 The [OSVVM Common Library](https://github.com/osvvm/OSVVM-Common)
@@ -135,7 +137,6 @@ You can find the project [Authors here](AUTHORS.md) and
 ## More Information on OSVVM
 
 **OSVVM Forums and Blog:**     [http://www.osvvm.org/](http://www.osvvm.org/)   
-**SynthWorks OSVVM Blog:** [http://www.synthworks.com/blog/osvvm/](http://www.synthworks.com/blog/osvvm/)    
 **Gitter:** [https://gitter.im/OSVVM/Lobby](https://gitter.im/OSVVM/Lobby)  
 **Documentation:** [osvvm.github.io](https://osvvm.github.io)
 **Documentation:** [PDF Documentation](https://github.com/OSVVM/Documentation)
