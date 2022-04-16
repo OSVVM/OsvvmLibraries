@@ -42,6 +42,12 @@ On GitHub, all OSVVM libraries are a submodule of the repository OsvvmLibraries.
 A great way to get oriented with OSVVM is to run the demos.
 For directions on running the demos, see [OSVVM Scripts](https://github.com/osvvm/OSVVM-Scripts#readme).
 
+## Participating and Project Organization 
+The OSVVM project welcomes your participation with either 
+issue reports or pull requests.
+
+You can find the project [Authors here](AUTHORS.md) and
+[Contributors here](CONTRIBUTORS.md).
 
 ## The OSVVM Verification Script Library
 The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts#readme) 
