@@ -10,20 +10,13 @@ Links to these files are below.
 - [AXI4](https://github.com/OSVVM/AXI4/blob/master/CHANGELOG.md) 
 - [UART](https://github.com/OSVVM/UART/blob/master/CHANGELOG.md) 
 
-## [2020.05] 2020-May
 
-### Added
-See Submodules
-- .gitignore
-- CHANGELOG.md
-- CONTRIBUTING.md
-- CONTRIBUTORS.md
-- LICENSE.md
-- README.md 
- 
+For revision dates see the revision date in the submodule.
+
+
 ## Copyright and License
-Copyright (C) 2006-2021 by [SynthWorks Design Inc.](http://www.synthworks.com/)   
-Copyright (C) 2020-2021 by [OSVVM contributors](CONTRIBUTOR.md)   
+Copyright (C) 2006-2022 by [SynthWorks Design Inc.](http://www.synthworks.com/)   
+Copyright (C) 2020-2022 by [OSVVM contributors](CONTRIBUTOR.md)   
 
 This file is part of OSVVM.
 
