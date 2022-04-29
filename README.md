@@ -11,15 +11,15 @@ or a complex ASIC.
 OSVVM is developed by the same VHDL experts who
 have helped develop VHDL standards.
 We have used our expert VHDL skills to create
-advanced verification capabilities that:
+advanced verification capabilities that:  
 
-- Are simple to use and work like built-in language features.
-- Maximize reuse and reduce project schedule.
-- Facilitate readabilty and reviewability by the whole team including software and system engineers.
-- Facilitate debug with HTML based test suite and test case reporting.
-- Provide continuous integration (CI/CD) support with JUnit XML test suite reporting.
-- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering.
-- Rival the verification capabilities of SystemVerilog + UVM.
+- Are simple to use and work like built-in language features.  
+- Maximize reuse and reduce project schedule.  
+- Improve readabilty and reviewability by the whole team including software and system engineers.  
+- Facilitate debug with HTML based test suite and test case reporting.  
+- Support continuous integration (CI/CD) with JUnit XML test suite reporting.  
+- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering.  
+- Rival the verification capabilities of SystemVerilog + UVM.  
 
 ## Learning OSVVM
 You can find an overview of OSVVM at [osvvm.github.io](https://osvvm.github.io).
