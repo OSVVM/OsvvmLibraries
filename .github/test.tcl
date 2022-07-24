@@ -1,2 +1,2 @@
 source ./OsvvmLibraries/Scripts/StartUp.tcl
-build ./OsvvmLibraries/OsvvmRegression.pro
+build ./OsvvmLibraries/.github/OsvvmRegression.pro
