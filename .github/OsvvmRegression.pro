@@ -1,2 +1,2 @@
-include ./OsvvmLibraries/OsvvmLibraries.pro
-include ./OsvvmLibraries/RunAllTests.pro
+include ../OsvvmLibraries.pro
+include ../RunAllTests.pro
