@@ -18,4 +18,4 @@
 	url = ../Documentation.git
 [submodule "DpRam"]
 	path = DpRam
-	url = https://github.com/OSVVM/DpRam.git
+	url = ../DpRam.git
