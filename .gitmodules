@@ -21,4 +21,4 @@
 	url = ../DpRam.git
 [submodule "Ethernet"]
 	path = Ethernet
-	url = https://GitHub.com/OSVVM/Ethernet
+	url = ../Ethernet
