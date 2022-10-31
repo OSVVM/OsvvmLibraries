@@ -49,3 +49,6 @@ if {[DirectoryExists AXI4]} {
 if {[DirectoryExists DpRam]} { 
   include ./DpRam/DpRam.pro
 }
+if {[DirectoryExists Ethernet]} { 
+  include ./Ethernet/Ethernet.pro
+}

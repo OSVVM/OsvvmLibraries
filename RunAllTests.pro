@@ -46,4 +46,8 @@ if {[DirectoryExists UART]} {
 if {[DirectoryExists DpRam]} { 
   include ./DpRam/RunAllTests.pro
 }
+if {[DirectoryExists Ethernet]} { 
+  include ./Ethernet/RunAllTests.pro
+}
+
 
