@@ -17,13 +17,14 @@
 #
 #  Revision History:
 #    Date      Version    Description
-#     1/2019   2019.01    Compile Script for OSVVM
+#    11/2022   2022.11    Added Common RunAllTests
 #     1/2020   2020.01    Updated Licenses to Apache
+#     1/2019   2019.01    Compile Script for OSVVM
 #
 #
 #  This file is part of OSVVM.
 #  
-#  Copyright (c) 2019 - 2020 by SynthWorks Design Inc.  
+#  Copyright (c) 2019 - 2022 by SynthWorks Design Inc.  
 #  
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -37,6 +38,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+
+include ./Common/RunAllTests.pro
+
 if {[DirectoryExists AXI4]} { 
   include ./AXI4/RunAllTests.pro
 }
