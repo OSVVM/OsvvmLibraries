@@ -24,4 +24,4 @@
 	url = ../Ethernet.git
 [submodule "CoSim"]
 	path = CoSim
-	url = https://github.com/OSVVM/CoSim
+	url = ../CoSim.git
