@@ -52,3 +52,6 @@ if {[DirectoryExists DpRam]} {
 if {[DirectoryExists Ethernet]} { 
   include ./Ethernet/Ethernet.pro
 }
+if {[DirectoryExists CoSim]} { 
+  include ./CoSim/CoSim.pro
+}
