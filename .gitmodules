@@ -22,3 +22,6 @@
 [submodule "Ethernet"]
 	path = Ethernet
 	url = ../Ethernet.git
+[submodule "CoSim"]
+	path = CoSim
+	url = ../CoSim.git
