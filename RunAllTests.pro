@@ -53,5 +53,11 @@ if {[DirectoryExists DpRam]} {
 if {[DirectoryExists Ethernet]} { 
   include ./Ethernet/RunAllTests.pro
 }
+if {[DirectoryExists CoSim]} { 
+  if {$::osvvm::ToolVendor eq "GHDL"} {
+    include ./CoSim/RunAllTests.pro
+  }
+}
+
 
 
