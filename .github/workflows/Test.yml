@@ -80,7 +80,7 @@ jobs:
           msystem: ${{ matrix.msys }}
           update: true
           install: git
-          pacboy: tcl:p tcllib:p
+          pacboy: tcl:p tcllib:p make:p python3:p
 
       - name: '🧰 Checkout'
         uses: actions/checkout@v2
