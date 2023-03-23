@@ -75,7 +75,7 @@ jobs:
     steps:
 
       - name: '${{ matrix.icon }} Setup MSYS2'
-        uses: msys2/setup-msys2@v3
+        uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.msys }}
           update: true
