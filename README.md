@@ -60,7 +60,7 @@ a common scripting API to run all simulators -
 including GHDL, NVC, Aldec Riviera-PRO and ActiveHDL, Siemens Questa and ModelSim, Synopsys VCS, and Cadence Xcelium.  
 Our motto: "One Script to RUn them ALL"
   
-## [OSVVM Model Independent Transaction Library](https://github.com/osvvm/OSVVM-Common#readme)
+## [OSVVM Model Independent Transaction Library Repository](https://github.com/osvvm/OSVVM-Common#readme)
 The Model Independent Transaction (MIT) library (osvvm_common) defines a transaction API (procedures such as read, write, send, get, …) 
 and transaction interface (a record) that simplifies writing verification components and test cases. 
 The MIT library is used (and required) by all OSVVM verification components.
@@ -85,11 +85,11 @@ The library currently contains the following repositories:
   - [Ethernet xMII Repository](https://github.com/osvvm/Ethernet) 
     - Verification components for Ethernet Phy and MAC that support GMII/RGMII/MII/RMII.
 
-## [OSVVM Co-simulation](https://github.com/OSVVM/CoSim#readme)
+## [OSVVM Co-simulation Repository](https://github.com/OSVVM/CoSim#readme)
 OSVVM co-simulation supports running software (C++) in a hardware simulation environment.  
 This includes either writing tests cases in C++ or running C++ models such as instruction set simulators.
 
-## [OSVVM Documentation](https://github.com/OSVVM/Documentation#readme)
+## [OSVVM Documentation Repository](https://github.com/OSVVM/Documentation#readme)
 PDF documentation for all things OSVVM.
 
 
