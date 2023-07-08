@@ -1,25 +1,28 @@
 # The OSVVM VHDL Verification Libraries and Scripts
-OSVVM is an advanced verification methodology that
+OSVVM is an advanced verification methodology that 
 defines a VHDL verification framework, verification utility library, 
-verification component library, and a scripting flow
-that simplifies your FPGA or ASIC verification project 
-from start to finish.
-Using these libraries you can create a simple, readable, and 
-powerful testbench that is suitable for either a simple FPGA block
-or a complex ASIC.
+verification component library, scripting API, and co-simulation capability 
+that simplifies your FPGA or ASIC verification project from start to finish. 
+Using these libraries you can create a simple, readable, 
+and powerful testbench that will boost productivity for either 
+low level block tests (unit tests) or complex FPGA and ASIC tests.
 
 OSVVM is developed by the same VHDL experts who
 have helped develop VHDL standards.
 We have used our expert VHDL skills to create
-advanced verification capabilities that:  
+advanced verification capabilities that provide:  
 
-- Are simple to use and work like built-in language features.  
-- Maximize reuse and reduce project schedule.  
-- Improve readabilty and reviewability by the whole team including software and system engineers.  
-- Facilitate debug with HTML based test suite and test case reporting.  
-- Support continuous integration (CI/CD) with JUnit XML test suite reporting.  
-- Provide buzz word features including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering.  
-- Rival the verification capabilities of SystemVerilog + UVM.  
+- A structured transaction-based framework using verification components that is suitable for all verification tasks - from Unit/RTL to full chip/system level testing.
+- Test cases and verification components that can be written any VHDL Engineer.
+- Test cases that are readable and reviewable by the whole team including software and system engineers.   
+- Unmatched reuse through the entire verification process.    
+- Unmatched test reporting with HTML based test suite reports, test case reports, and logs that facilitate debug and test artifact collection.   
+- Support for continuous integration (CI/CD) with JUnit XML test suite reporting.  
+- Powerful and concise verification capabilities including Constrained Random, Functional Coverage, Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering that are simple to use and work like built-in language features.
+- A common scripting API to run all simulators - including GHDL, NVC, Aldec Riviera-PRO and ActiveHDL, Siemens Questa and ModelSim, Synopsys VCS, and Cadence Xcelium.  
+- A Co-simulation capability that supports running software (C++) in a hardware simulation environment.
+- A Model Independent Transaction (MIT) library that defines a transaction API (procedures such as read, write, send, get, …)  and transaction interface (a record) that simplifies writing verification components and test cases.
+- A rival to the verification capabilities of SystemVerilog + UVM.  
 
 ## Learning OSVVM
 You can find an overview of OSVVM at [osvvm.github.io](https://osvvm.github.io).
@@ -28,61 +31,41 @@ Alternately you can find our pdf documentation at
 
 You can also learn OSVVM by taking the class, [Advanced VHDL Verification and Testbenches - OSVVM&trade; BootCamp](https://synthworks.com/vhdl_testbench_verification.htm)
 
-## Download OSVVM Libraries
-OSVVM is available as either a git repository 
-[OsvvmLibraries](https://github.com/osvvm/OsvvmLibraries) 
-or zip file from [osvvm.org Downloads Page](https://osvvm.org/downloads).
-
-On GitHub, all OSVVM libraries are a submodule of the repository OsvvmLibraries. Download all OSVVM libraries using git clone with the “–recursive” flag: 
-```    
-  $ git clone --recursive https://github.com/osvvm/OsvvmLibraries
-```
-        
 ## Run The Demos
 A great way to get oriented with OSVVM is to run the demos.
 For directions on running the demos, see [OSVVM Scripts](https://github.com/osvvm/OSVVM-Scripts#readme).
 
-## Participating and Project Organization 
-The OSVVM project welcomes your participation with either 
-issue reports or pull requests.
+## [OsvvmLibraries](https://github.com/osvvm/OsvvmLibraries) 
+OsvvmLibraries contains all other OSVVM repositories as submodules.   If you want everything, this is the one you need to clone.   
 
-You can find the project [Authors here](AUTHORS.md) and
-[Contributors here](CONTRIBUTORS.md).
+### Download using git
+Be sure to use “–recursive” to include the submodules:
+```    
+  $ git clone --recursive https://github.com/osvvm/OsvvmLibraries
+```
 
-## The OSVVM Verification Script Library
-The [OSVVM Verification Script Library](https://github.com/osvvm/OSVVM-Scripts#readme) 
-provides a simulator independent scripting 
-approach for running simulations.
-Currently it supports Aldec's Riviera-PRO/Active-HDL, 
-Siemen's QuestaSim/ModelSim, GHDL, Synopsys' VCS, and Cadence's Xcelium.
-Our motto: "One Script to Run them ALL"
- 
-## The OSVVM VHDL Verification Utility Library 
-The [OSVVM utility library](https://github.com/osvvm/osvvm#readme) implements advanced verification capabilities that are simple to use and feel like built-in language features.
-These include:   
-  - Transaction-Level Modeling (TbUtilPkg, ResolutionPkg)
-  - Constrained Random test generation (RandomPkg)
-  - Functional Coverage with hooks for UCIS coverage database integration (CoveragePkg)
-  - Intelligent Coverage Random test generation  (CoveragePkg)
-  - Utilities for testbench process synchronization generation (TbUtilPkg)
-  - Utilities for clock and reset generation (TbUtilPkg)
-  - Transcript files (TranscriptPkg)
-  - Error logging and reporting - Alerts and Affirmations (AlertLogPkg)
-  - Message filtering - Logs (AlertLogPkg)
-  - Scoreboards and FIFOs (data structures for verification) (ScoreboardGenericPkg)
-  - Memory models (MemoryPkg)
-  - Test Reporting - Test Suite and Test Case in HTML 
-  - Continuous Integration (CI/CD) Support - with JUnit XML reports
- 
-## The OSVVM Model Independent Transaction Library
-The [OSVVM Common Library](https://github.com/osvvm/OSVVM-Common)
-defines OSVVM's Model Independent Transactions (MIT).
-MIT defines a common communication interface (record based)
-and transaction API for Address Bus and Streaming Interface.
-Using MIT makes verification component development as easy
-as any "Lite" approach to verification.
-Going further using a common transaction API simplifies
-the test development process.
+### Download a Zip file
+Get a zip file from [osvvm.org Downloads Page](https://osvvm.org/downloads).
+
+## [OSVVM Utility Library Repository](https://github.com/osvvm/osvvm#readme) 
+The OSVVM Utility library (named osvvm) implements 
+buzz word verification capabilities including Constrained Random, Functional Coverage, 
+Scoreboards, FIFOs, Memory Models, error logging and reporting, and message filtering 
+that are simple to use and work like built-in language features.
+
+
+## [OSVVM Verification Script Library Repository](https://github.com/osvvm/OSVVM-Scripts)
+The OSVVM script library implements
+a common scripting API to run all simulators - 
+including GHDL, NVC, Aldec Riviera-PRO and ActiveHDL, Siemens Questa and ModelSim, Synopsys VCS, and Cadence Xcelium.  
+Our motto: "One Script to RUn them ALL"
+  
+## [OSVVM Model Independent Transaction Library](https://github.com/osvvm/OSVVM-Common#readme)
+The Model Independent Transaction (MIT) library (osvvm_common) defines a transaction API (procedures such as read, write, send, get, …) 
+and transaction interface (a record) that simplifies writing verification components and test cases. 
+The MIT library is used (and required) by all OSVVM verification components.
+Usi8ng OSVVM MIT makes verification component deveopment as easy as any "Lite" based approach.
+
 
 ## The OSVVM Verification Component Libraries
 The OSVVM Verification Component Libraries are a growing set of 
@@ -90,28 +73,27 @@ verification components commonly used for FPGA and ASIC verification.
 Each family of verification components is a separate git repository. 
 The library currently contains the following repositories:
 
-  - [OSVVM Common Library Repository](https://github.com/osvvm/OSVVM-Common)
-    - Required for all OSVVM Verification Components
-    - Defines OSVVMs Model Independent Transactions (Address Bus and Stream)
-  - [AXI4](https://github.com/osvvm/AXI4#readme)
-    - Manager with bursting
-    - Memory Subordinate with bursting
-    - Transaction Subordinate - no bursting
-  - [AXI4 Lite](https://github.com/osvvm/AXI4#readme)
-    - Manager
-    - Memory Subordinate
-    - Transaction Subordinate 
-  - [AXI Stream](https://github.com/osvvm/AXI4#readme)
-    - Transmitter
-    - Receiver
-  - [UART](https://github.com/osvvm/UART#readme)
-    - Transmitter - with error injection
-    - Receiver - with error injection
-  - [DpRam Repository](https://github.com/osvvm/DpRam#readme) 
+  - [AXI4 Repository](https://github.com/osvvm/AXI4#readme) 
+    - Axi4 Full Manager (burst), Memory (burst), Subordinate Verification Components
+    - Axi4 Lite Manager and Subordinate Verification Components
+    - AxiStream Transmitter and Receiver Verification Components
+  - [UART Repository](https://github.com/osvvm/UART#readme) 
+    - UART Transmitter and Receiver
+  - [DpRam Repository](https://github.com/osvvm/DpRam) 
     - DpRam behavioral model 
     - DpRam Manager VC to read and write to the DpRam interface
+  - [Ethernet xMII Repository](https://github.com/osvvm/Ethernet) 
+    - Verification components for Ethernet Phy and MAC that support GMII/RGMII/MII/RMII.
 
-## OSVVM Verification Component Interfaces 
+## [OSVVM Co-simulation](https://github.com/OSVVM/CoSim#readme)
+OSVVM co-simulation supports running software (C++) in a hardware simulation environment.  
+This includes either writing tests cases in C++ or running C++ models such as instruction set simulators.
+
+## [OSVVM Documentation](https://github.com/OSVVM/Documentation#readme)
+PDF documentation for all things OSVVM.
+
+
+## OSVVM Transaction Interfaces 
 OSVVM verification components use records for the 
 transaction interfaces, so connecting them to your 
 testbench is simple - connect only a single signal.
