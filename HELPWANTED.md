@@ -17,7 +17,7 @@ We are particularly interested in the following verification components:
 * Wishbone
 * Avalon & Avalon Stream
 * I2C
-* Ethernet
+* Ethernet (layers above xMII that exist in OSVVM Library)
 * SPI
 
 # Copyright and License
