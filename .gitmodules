@@ -25,3 +25,6 @@
 [submodule "CoSim"]
 	path = CoSim
 	url = ../CoSim.git
+[submodule "VideoBus"]
+	path = VideoBus
+	url = git@github.com:Louadria/VideoBus.git
