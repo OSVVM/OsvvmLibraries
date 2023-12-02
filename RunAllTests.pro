@@ -59,6 +59,9 @@ if {[DirectoryExists DpRam]} {
 if {[DirectoryExists Ethernet]} { 
   include ./Ethernet/RunAllTests.pro
 }
+if {[DirectoryExists VideoBus_LouisAdriaens]} { 
+  include ./VideoBus_LouisAdriaens/RunAllTests.pro
+}
 
 
 
