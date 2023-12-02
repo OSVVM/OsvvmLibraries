@@ -25,3 +25,6 @@
 [submodule "CoSim"]
 	path = CoSim
 	url = ../CoSim.git
+[submodule "VideoBus_LouisAdriaens"]
+	path = VideoBus_LouisAdriaens
+	url = ../VideoBus_LouisAdriaens
