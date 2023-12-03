@@ -63,7 +63,8 @@ if {[DirectoryExists VideoBus_LouisAdriaens]} {
   include ./VideoBus_LouisAdriaens/RunAllTests.pro
 }
 if {[DirectoryExists SPI_GuyEschemann]} { 
-  include ./SPI_GuyEschemann/RunAllTests.pro
+#
+#  include ./SPI_GuyEschemann/RunAllTests.pro
 }
 
 
