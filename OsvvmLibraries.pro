@@ -55,6 +55,9 @@ if {[DirectoryExists Ethernet]} {
 if {[DirectoryExists VideoBus_LouisAdriaens]} { 
   include ./VideoBus_LouisAdriaens/VideoBus.pro
 }
+if {[DirectoryExists SPI_GuyEschemann]} { 
+  include ./SPI_GuyEschemann/SPI.pro
+}
 if {[DirectoryExists CoSim]} { 
   include ./CoSim/CoSim.pro
 }
