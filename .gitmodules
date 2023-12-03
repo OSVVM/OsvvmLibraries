@@ -28,3 +28,7 @@
 [submodule "VideoBus_LouisAdriaens"]
 	path = VideoBus_LouisAdriaens
 	url = ../VideoBus_LouisAdriaens.git
+[submodule "SPI_GuyEschemann"]
+	path = SPI_GuyEschemann
+	url = ../SPI_GuyEschemann.git
+	branch = main
