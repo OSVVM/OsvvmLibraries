@@ -58,6 +58,8 @@ if {[DirectoryExists VideoBus_LouisAdriaens]} {
 if {[DirectoryExists SPI_GuyEschemann]} { 
   include ./SPI_GuyEschemann/SPI.pro
 }
-if {[DirectoryExists CoSim]} { 
-  include ./CoSim/CoSim.pro
+if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"} {
+  if {[DirectoryExists CoSim]} { 
+    include ./CoSim/CoSim.pro
+  }
 }
