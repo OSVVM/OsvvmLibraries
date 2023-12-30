@@ -65,20 +65,20 @@ if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
     include ./VideoBus_LouisAdriaens/RunAllTests.pro
   }
 } else {
-  TestSuite VideoBus
-  SkipTest VideoBus "VideoBus VC not updated for Xilinx"
+#  TestSuite VideoBus
+#  SkipTest VideoBus "VideoBus VC not updated for Xilinx"
 }
 
 if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
   if {[DirectoryExists SPI_GuyEschemann]} { 
   #
   #  include ./SPI_GuyEschemann/RunAllTests.pro
-  TestSuite SPI
-  SkipTest SPI      "SPI VC tested using a separate design not included with OSVVM"
+#  TestSuite SPI
+#  SkipTest SPI      "SPI VC tested using a separate design not included with OSVVM"
   }
 } else {
-  TestSuite SPI
-  SkipTest SPI      "SPI VC not updated for Xilinx"
+#  TestSuite SPI
+#  SkipTest SPI      "SPI VC not updated for Xilinx"
 }
 
 
