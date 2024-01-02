@@ -37,12 +37,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-if {[DirectoryExists AXI4]} { 
-  include ./AXI4/RunAllTestsVti.pro
+if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
+
+  if {[DirectoryExists AXI4]} { 
+    include ./AXI4/RunAllTestsVti.pro
+  }
+  if {[DirectoryExists UART]} { 
+  #  include ./UART/RunAllTestsVti.pro
+  }
+  if {[DirectoryExists DpRam]} { 
+  #  include ./DpRam/RunAllTestsVti.pro
 }
-if {[DirectoryExists UART]} { 
-#  include ./UART/RunAllTestsVti.pro
-}
-if {[DirectoryExists DpRam]} { 
-#  include ./DpRam/RunAllTestsVti.pro
 }
