@@ -62,12 +62,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #- {icon: '🟪', msys: 'MINGW32', pkg: "llvm"  } ! Not yet functional
-          - {icon: '🟦', msys: 'MINGW64', pkg: 'llvm'  }
-          - {icon: '🟨', msys: 'UCRT64',  pkg: 'llvm'  } #! Experimental
-          - {icon: '🟪', msys: 'MINGW32', pkg: 'mcode' }
-          #- {icon: '🟦', msys: 'MINGW64', pkg: "mcode" } ! Simulation with mcode is not yet supported on win64
-          #- {icon: '🟨', msys: 'UCRT64',  pkg: "mcode" } ! Experimental; Simulation with mcode is not yet supported on win64
+          - { icon: '🟦', msys: MINGW64, backend: llvm }
+          - { icon: '🟨', msys: UCRT64,  backend: llvm }
+         # - { icon: '🟪', msys: MINGW32, backend: mcode }  ! removed since it is failing
+          - { icon: '🟦', msys: MINGW64, backend: mcode }
+          - { icon: '🟨', msys: UCRT64,  backend: mcode }
+
     name: '${{ matrix.icon }} ${{ matrix.msys }} · ${{ matrix.pkg }}'
     defaults:
       run:
