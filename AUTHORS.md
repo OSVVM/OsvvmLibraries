@@ -37,18 +37,18 @@
 * Contributor
 
 
-### [Full contributors list](https://opensource.ieee.org/OSVVM/OsvvmLibraries/-/graphs/master)
+### [Full contributors list](https://github.com/OSVVM/OsvvmLibraries/graphs/contributors)
 
 
 ## Participating  
 The OSVVM project welcomes your participation with either 
 issue reports or pull requests.
-For details on [how to participate see](https://opensource.ieee.org/osvvm/OsvvmLibraries/-/blob/master/CONTRIBUTING.md)
+For details on [how to participate see](https://github.com/OSVVM/OsvvmLibraries/blob/main/CONTRIBUTING.md)
 
 
 #### Copyright and License
 
-Copyright (C) 2020 - 2022 by [OSVVM Authors](AUTHORS.md)   
+Copyright (C) 2020 - 2024 by [OSVVM Authors](AUTHORS.md)   
 
 This file is part of OSVVM.
 
