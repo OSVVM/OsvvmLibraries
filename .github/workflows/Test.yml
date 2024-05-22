@@ -109,8 +109,6 @@ jobs:
             logs/**/*.*
           if-no-files-found: error
 
-      - run: ls log-*
-
   publish-test-results:
     if: always()
     needs: [lin, win]
