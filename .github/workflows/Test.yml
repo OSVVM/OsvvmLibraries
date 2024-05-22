@@ -129,6 +129,6 @@ jobs:
         with:
           name: OSVVM VC Regression Results
           path: artifacts/**/*.xml
-          reporter: 'java-junit'
-          list-suites: 'all'
-          list-tests: 'all'
+          reporter: java-junit
+          list-suites: all
+          list-tests: all
