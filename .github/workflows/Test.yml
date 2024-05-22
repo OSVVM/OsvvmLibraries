@@ -131,4 +131,4 @@ jobs:
           path: artifacts/**/*.xml
           reporter: java-junit
           list-suites: all
-          list-tests: all
+          list-tests: failed
