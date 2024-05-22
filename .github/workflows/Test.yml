@@ -59,9 +59,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {icon: '🟦', msys: 'MINGW64', pkg: 'llvm'  }
+          # - {icon: '🟦', msys: 'MINGW64', pkg: 'llvm'  }
           - {icon: '🟨', msys: 'UCRT64',  pkg: 'llvm'  } 
-          - {icon: '🟦', msys: 'MINGW64', pkg: 'mcode' } 
+          # - {icon: '🟦', msys: 'MINGW64', pkg: 'mcode' } 
           - {icon: '🟨', msys: 'UCRT64',  pkg: 'mcode' } 
 
     name: '${{ matrix.icon }} ${{ matrix.msys }} · ${{ matrix.pkg }}'
