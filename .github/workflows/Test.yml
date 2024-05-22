@@ -54,8 +54,6 @@ jobs:
             logs/**/*.*
           if-no-files-found: error
           
-      - run: ls -R log-*
-
   win:
     runs-on: windows-latest
     strategy:
