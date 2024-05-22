@@ -18,7 +18,6 @@ jobs:
         backend:
           - mcode
           - llvm
-#          - gcc
     name: '🐧 Ubuntu · ${{ matrix.backend }}'
     steps:
 
@@ -54,7 +53,8 @@ jobs:
             reports/**/*.html
             logs/**/*.*
           if-no-files-found: error
-        
+          
+      - run: ls -R log-*
 
   win:
     runs-on: windows-latest
@@ -66,7 +66,6 @@ jobs:
           - {icon: '🟨', msys: 'UCRT64',  pkg: 'llvm'  } 
           - {icon: '🟦', msys: 'MINGW64', pkg: 'mcode' } 
           - {icon: '🟨', msys: 'UCRT64',  pkg: 'mcode' } 
-
 
     name: '${{ matrix.icon }} ${{ matrix.msys }} · ${{ matrix.pkg }}'
     defaults:
@@ -110,6 +109,7 @@ jobs:
             logs/**/*.*
           if-no-files-found: error
 
+      - run: ls log-*
 
   publish-test-results:
     if: always()
@@ -126,9 +126,8 @@ jobs:
         with:
           path: artifacts
           pattern: log-*
-          merge-multiple: true
           
-      - run: ls -R artifacts
+      - run: ls artifacts
 
       - name: 📊 Publish Unit Test Results
         uses: dorny/test-reporter@v1
