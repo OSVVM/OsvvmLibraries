@@ -23,7 +23,7 @@ jobs:
     steps:
 
       - name: '🧰 Checkout'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: OsvvmLibraries
           submodules: recursive
@@ -42,9 +42,9 @@ jobs:
         run: tclsh ./OsvvmLibraries/.github/test.tcl
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ubuntu-ghdl-${{ matrix.backend }}-log
+          name: log-ubuntu-ghdl-${{ matrix.backend }}
           path: |
             *.log
             *.yml
@@ -83,7 +83,7 @@ jobs:
           pacboy: tcl:p tcllib:p make:p python3:p
 
       - name: '🧰 Checkout'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: OsvvmLibraries
           submodules: recursive
@@ -97,9 +97,9 @@ jobs:
         run: tclsh ./OsvvmLibraries/.github/test.tcl
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}-log
+          name: log-msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}
           path: |
             *.log
             *.yml
@@ -119,12 +119,16 @@ jobs:
     steps:
 
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: '📥 Download artifact: package'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
+          pattern: log-*
+          merge-multiple: true
+          
+      - run: ls -R artifacts
 
       - name: 📊 Publish Unit Test Results
         uses: dorny/test-reporter@v1
