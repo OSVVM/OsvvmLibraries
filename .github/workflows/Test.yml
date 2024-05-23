@@ -104,6 +104,8 @@ jobs:
             reports/*.html
             reports/**/*.html
             logs/**/*.*
+            reports/*.css
+            reports/osvvm.png
           if-no-files-found: error
 
   publish-test-results:
