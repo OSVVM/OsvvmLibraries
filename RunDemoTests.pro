@@ -44,3 +44,7 @@ if {[DirectoryExists AXI4]} {
 if {[DirectoryExists UART]} { 
   include ./UART/RunDemoTests.pro
 }
+if {[DirectoryExists Ethernet]} { 
+  include ./Ethernet/RunDemoTests.pro
+}
+
