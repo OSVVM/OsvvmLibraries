@@ -47,5 +47,5 @@ if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
   }
   if {[DirectoryExists DpRam]} { 
   #  include ./DpRam/RunAllTestsVti.pro
-}
+  }
 }
