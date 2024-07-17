@@ -57,7 +57,7 @@ jobs:
 
   publish-test-results:
     if: always()
-    needs: [lin, win]
+    needs: [win]
     runs-on: ubuntu-latest
     name: 📊 Publish Unit Tests Results
     steps:
