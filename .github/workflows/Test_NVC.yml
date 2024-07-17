@@ -19,15 +19,14 @@ jobs:
         with:
           path: OsvvmLibraries
           submodules: recursive
+
       - name: 'Setup MSYS2-MinGW64'
         uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
           update: true
-          install: >-
-            base-devel
-            git
-            mingw-w64-x86_64-tcllib
+          install: git
+          pacboy: tcl:p tcllib:p make:p python3:p
 
       - name: 'Install NVC'
         run: |
@@ -43,7 +42,7 @@ jobs:
       - name: 'Upload results'
         uses: actions/upload-artifact@v4
         with:
-          name: msys2-nvc-MINGW64-log
+          name: log-msys2-nvc-MINGW64
           path: |
             *.log
             *.yml
@@ -56,6 +55,13 @@ jobs:
             reports/osvvm.png
           if-no-files-found: error
 
+  publish-test-results:
+    if: always()
+    needs: [lin, win]
+    runs-on: ubuntu-latest
+    name: 📊 Publish Unit Tests Results
+    steps:
+
       - name: ⏬ Checkout repository
         uses: actions/checkout@v4
 
@@ -64,6 +70,8 @@ jobs:
         with:
           path: artifacts
           pattern: log-*
+          
+      - run: ls artifacts
 
       - name: 📊 Publish Unit Test Results
         uses: dorny/test-reporter@v1
