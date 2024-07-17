@@ -31,7 +31,11 @@ jobs:
 
       - name: 'Install NVC'
         run: |
-          pacman -S --noconfirm mingw-w64-x86_64-nvc
+          : # temporary
+          wget https://github.com/nickg/nvc/releases/download/r1.13.0/mingw-w64-x86_64-nvc-1.13.0.git20240713.016164d9-1-any.pkg.tar.zst
+          pacman -U --noconfirm *.zst
+          : # TODO install from offical MSYS2 package when available
+          : # pacman -S --noconfirm mingw-w64-x86_64-nvc
 
       - name: 'Run tests'
         run: tclsh ./OsvvmLibraries/.github/test.tcl NVC
