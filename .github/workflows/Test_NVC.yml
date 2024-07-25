@@ -1,12 +1,10 @@
-name: Test (NVC) (dev branch)
+name: OsvvmRegressionOnNVC
 
 # TODO enable other events and/or schedule as required
 on:
+  push:
+  pull_request:
   workflow_dispatch:
-#  push:
-#  pull_request:
-#  schedule:
-#    - cron: '0 15 * * *'
 
 jobs:
   win:
@@ -16,35 +14,35 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v3
+      - name: '🧰 Checkout'
+        uses: actions/checkout@v4
         with:
-          ref: dev
           path: OsvvmLibraries
           submodules: recursive
-          fetch-depth: 1
+
       - name: 'Setup MSYS2-MinGW64'
         uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
           update: true
-          install: >-
-            base-devel
-            git
-            mingw-w64-x86_64-tcllib
+          install: git
+          pacboy: tcl:p tcllib:p make:p python3:p
+
       - name: 'Install NVC'
         run: |
           : # temporary
-          wget https://www.nickg.me.uk/files/mingw-w64-x86_64-nvc-1.7.0.r209.g4ef679f1-1-any.pkg.tar.zst
+          wget https://github.com/nickg/nvc/releases/download/r1.13.0/mingw-w64-x86_64-nvc-1.13.0.git20240713.016164d9-1-any.pkg.tar.zst
           pacman -U --noconfirm *.zst
-          : # TODO install from offical MSYS2 package when available:
+          : # TODO install from offical MSYS2 package when available
           : # pacman -S --noconfirm mingw-w64-x86_64-nvc
+
       - name: 'Run tests'
         run: tclsh ./OsvvmLibraries/.github/test.tcl NVC
+
       - name: 'Upload results'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: msys2-nvc-MINGW64-log
+          name: log-msys2-nvc-MINGW64
           path: |
             *.log
             *.yml
@@ -53,10 +51,33 @@ jobs:
             reports/*.html
             reports/**/*.html
             logs/**/*.*
+            reports/*.css
+            reports/osvvm.png
           if-no-files-found: error
-      - name: 'Check for zero failures'
-        run: |
-          tests="$(xmllint --xpath 'string(/testsuites/@tests)' .github_OsvvmRegression.xml)"
-          failures="$(xmllint --xpath 'string(/testsuites/@failures)' .github_OsvvmRegression.xml)"
-          echo "tests: ${tests}  failures: ${failures}"
-          if (( $failures != "0" )); then exit 1; fi
+
+  publish-test-results:
+    if: always()
+    needs: [win]
+    runs-on: ubuntu-latest
+    name: 📊 Publish Unit Tests Results
+    steps:
+
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: '📥 Download artifact: package'
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: log-*
+          
+      - run: ls artifacts
+
+      - name: 📊 Publish Unit Test Results
+        uses: dorny/test-reporter@v1
+        with:
+          name: OSVVM VC Regression Results
+          path: artifacts/**/*.xml
+          reporter: java-junit
+          list-suites: all
+          list-tests: failed
