@@ -97,6 +97,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: log-msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}
+          include-hidden-files: true
           path: |
             *.log
             *.yml
