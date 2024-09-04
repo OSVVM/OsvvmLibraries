@@ -42,17 +42,18 @@ jobs:
       - name: 'Upload results'
         uses: actions/upload-artifact@v4
         with:
+          include-hidden-files: true
           name: log-msys2-nvc-MINGW64
           path: |
             *.log
             *.yml
             *.html
             *.xml
-            reports/*.html
-            reports/**/*.html
             logs/**/*.*
             reports/*.css
             reports/osvvm.png
+            reports/*.html
+            reports/**/*.html
           if-no-files-found: error
 
   publish-test-results:

@@ -43,6 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: log-ubuntu-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
           path: |
             *.log
             *.yml
