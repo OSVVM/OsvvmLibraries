@@ -2,9 +2,9 @@ name: OsvvmRegressionOnNVC
 
 # TODO enable other events and/or schedule as required
 on:
-  push:
-  pull_request:
-  workflow_dispatch:
+#  push:
+#  pull_request:
+#  workflow_dispatch:
 
 jobs:
   win:

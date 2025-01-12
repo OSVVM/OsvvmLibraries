@@ -1,4 +1,4 @@
-name: OsvvmRegressionOnGHDL
+name: OSVVM Regression Testing on GHDL
 
 on:
   push:
@@ -8,36 +8,65 @@ on:
     - cron: '0 15 * * *'
 
 jobs:
-
-  lin:
-    runs-on: ubuntu-22.04
+  RegressionTest:
+    name: ${{ matrix.os.icon }}${{ matrix.os.name }} - GHDL ${{ matrix.backend }}
+    runs-on: ${{ matrix.os.image }}
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - {icon: "🐧",   name: "Ubuntu",  image: "ubuntu-24.04", shell: "bash",      runtime: ""}
+          - {icon: "🍏",   name: "macOS",   image: "macos-14",     shell: "bash",      runtime: ""}
+          - {icon: "🪟🟨", name: "Windows", image: "windows-2022", shell: "msys2 {0}", runtime: "ucrt64"}
         backend:
           - mcode
           - llvm
-    name: '🐧 Ubuntu · ${{ matrix.backend }}'
-    steps:
+        exclude:
+          - {os: {name: "macOS"}, backend: "mcode"}
 
-      - name: '🧰 Checkout'
+    defaults:
+      run:
+        shell: ${{ matrix.os.shell }}
+
+    steps:
+      - name: ⏬ Checkout repository
         uses: actions/checkout@v4
         with:
-          path: OsvvmLibraries
           submodules: recursive
 
-      - name: '⚙️ Setup GHDL'
-        uses: ghdl/setup-ghdl-ci@master
+      - name: ${{ matrix.os.icon }} Setup MSYS2 for ${{ matrix.os.runtime }}
+        if: runner.os == 'Windows' && matrix.os.runtime != ''
+        uses: msys2/setup-msys2@v2
         with:
+          msystem: ${{ matrix.os.runtime }}
+          update: true
+          install: git
+          pacboy: tcl:p tcllib:p
+
+      - name: ⚙️ Setup GHDL
+        uses: ghdl/setup-ghdl@v1
+        with:
+          version: nightly
+          runtime: ${{ matrix.os.runtime }}
           backend: ${{ matrix.backend }}
 
-      - name: '🛠️ Install tcl'
+      - name: 🐧🛠️ Install tcl and tcllib
+        if: runner.os == 'Linux'
         run: |
-          sudo apt update -qq
-          sudo apt install -y tcl tcllib
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tcl tcllib
 
-      - name: '🚧 Run tests'
-        run: tclsh ./OsvvmLibraries/.github/test.tcl
+#      - name: 🍏🛠️ Install tcl-tk
+#        if: runner.os == 'macOS'
+#        run: |
+#          brew install tcl-tk
+
+      - name: 🚧 Run tests'
+        run: |
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl
 
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
@@ -45,80 +74,44 @@ jobs:
           name: log-ubuntu-ghdl-${{ matrix.backend }}
           include-hidden-files: true
           path: |
-            *.log
-            *.yml
-            *.html
-            *.xml
-            reports/*.html
-            reports/**/*.html
-            logs/**/*.*
+            temp/*.log
+            temp/*.html
+            temp/reports/*.html
+            temp/reports/**/*.html
+            temp/logs/**/*.*
+            temp/reports/*.css
+            temp/reports/osvvm.png
           if-no-files-found: error
-          
-  win:
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # - {icon: '🟦', msys: 'MINGW64', pkg: 'llvm'  }
-          - {icon: '🟨', msys: 'UCRT64',  pkg: 'llvm'  } 
-          # - {icon: '🟦', msys: 'MINGW64', pkg: 'mcode' } 
-          - {icon: '🟨', msys: 'UCRT64',  pkg: 'mcode' } 
 
-    name: '${{ matrix.icon }} ${{ matrix.msys }} · ${{ matrix.pkg }}'
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-
-      - name: '${{ matrix.icon }} Setup MSYS2'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{ matrix.msys }}
-          update: true
-          install: git
-          pacboy: tcl:p tcllib:p make:p python3:p
-
-      - name: '🧰 Checkout'
-        uses: actions/checkout@v4
-        with:
-          path: OsvvmLibraries
-          submodules: recursive
-
-      - name: '⚙️ Setup GHDL'
-        uses: ghdl/setup-ghdl-ci@master
-        with:
-          backend: ${{ matrix.pkg }}
-
-      - name: '🚧 Run tests'
-        run: tclsh ./OsvvmLibraries/.github/test.tcl
-
-      - name: '📤 Upload artifact: logs'
+      - name: '📤 Upload artifact: yaml'
         uses: actions/upload-artifact@v4
         with:
-          name: log-msys2-ghdl-${{ matrix.pkg }}-${{ matrix.msys }}
+          name: yaml-ubuntu-ghdl-${{ matrix.backend }}
           include-hidden-files: true
           path: |
-            *.log
-            *.yml
-            *.html
-            *.xml
-            reports/*.html
-            reports/**/*.html
-            logs/**/*.*
-            reports/*.css
-            reports/osvvm.png
+            temp/*.yml
           if-no-files-found: error
 
-  publish-test-results:
-    if: always()
-    needs: [lin, win]
-    runs-on: ubuntu-latest
-    name: 📊 Publish Unit Tests Results
-    steps:
+      - name: '📤 Upload artifact: xml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xml-ubuntu-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.xml
+          if-no-files-found: error
 
-      - name: ⏬ Checkout repository
-        uses: actions/checkout@v4
+  PublishTestResults:
+    name: 📊 Publish Unit Tests Results
+    runs-on: ubuntu-24.04
+    needs:
+      - RegressionTest
+
+    if: always()
+
+    steps:
+#      - name: ⏬ Checkout repository
+#        uses: actions/checkout@v4
 
       - name: '📥 Download artifact: package'
         uses: actions/download-artifact@v4
@@ -126,7 +119,9 @@ jobs:
           path: artifacts
           pattern: log-*
           
-      - run: ls artifacts
+      - name: List all artifacts
+        run: |
+          tree artifacts
 
       - name: 📊 Publish Unit Test Results
         uses: dorny/test-reporter@v1
@@ -136,3 +131,25 @@ jobs:
           reporter: java-junit
           list-suites: all
           list-tests: failed
+
+  Package:
+    name: Package OSVVMLibraries incl. all Git submodules as artifact
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: OsvvmLibraries
+
+      - name: List content of 'OsvvmLibraries' ...
+        run: |
+          tree OsvvmLibraries
+
+      - name: '📤 Upload artifact: osvvm'
+        uses: actions/upload-artifact@v4
+        with:
+          name: osvvm
+          path: |
+            OsvvmLibraries/*
+          if-no-files-found: error
