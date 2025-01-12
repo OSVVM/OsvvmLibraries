@@ -8,7 +8,7 @@ on:
     - cron: '0 15 * * *'
 
 jobs:
-  RegressionTest:
+  GHDL:
     name: ${{ matrix.os.icon }}${{ matrix.os.name }} - GHDL ${{ matrix.backend }}
     runs-on: ${{ matrix.os.image }}
     strategy:
@@ -56,22 +56,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends tcl tcllib
 
-#      - name: 🍏🛠️ Install tcl-tk
-#        if: runner.os == 'macOS'
-#        run: |
-#          brew install tcl-tk
-
       - name: 🚧 Run tests'
         run: |
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl
+          tclsh ../.github/test.tcl GHDL
 
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
         with:
-          name: log-ubuntu-ghdl-${{ matrix.backend }}
+          name: log-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
           path: |
             temp/*.log
@@ -86,7 +81,7 @@ jobs:
       - name: '📤 Upload artifact: yaml'
         uses: actions/upload-artifact@v4
         with:
-          name: yaml-ubuntu-ghdl-${{ matrix.backend }}
+          name: yaml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
           path: |
             temp/*.yml
@@ -95,7 +90,98 @@ jobs:
       - name: '📤 Upload artifact: xml'
         uses: actions/upload-artifact@v4
         with:
-          name: xml-ubuntu-ghdl-${{ matrix.backend }}
+          name: xml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.xml
+          if-no-files-found: error
+
+  NVC:
+    name: 🪟Windows - NVC
+    runs-on: windows-2022
+
+    defaults:
+      run:
+        shell: "msys2 {0}"
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: 🟨 Setup MSYS2 for UCRT64
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          update: true
+          install: git
+          pacboy: tcl:p tcllib:p
+
+      - name: 🐧🛠️ Install NVC
+        run: |
+          NVC_VERSION="1.15.0"
+          NVC_DATE="20250111"
+          NVC_HASH="ec21477e"
+          
+          ANSI_LIGHT_RED=$'\x1b[91m'
+          ANSI_LIGHT_GREEN=$'\x1b[92m'
+          ANSI_LIGHT_BLUE="\e[94m"
+          ANSI_NOCOLOR=$'\x1b[0m'
+          
+          DOWNLOAD_URL="https://github.com/nickg/nvc/releases/download/r${NVC_VERSION}/mingw-w64-ucrt-x86_64-nvc-${NVC_VERSION}.git${NVC_DATE}.${NVC_HASH}-1-any.pkg.tar.zst"
+          printf "::group::${ANSI_LIGHT_BLUE}%s${ANSI_NOCOLOR}\n" "Downloading asset from '${DOWNLOAD_URL}' ..."
+          curl -L "${DOWNLOAD_URL}" -o nvc.pkg.tar.zst
+          printf "::endgroup::\n"
+  
+          printf "::group::${ANSI_LIGHT_BLUE}%s${ANSI_NOCOLOR}\n" "Installing 'nvc.pkg.tar.zst' file ..."
+          pacman -U --noconfirm nvc.pkg.tar.zst
+          printf "::endgroup::\n"
+  
+          printf "Deleting '%s' ... " "nvc.pkg.tar.zst"
+          rm "nvc.pkg.tar.zst"
+          if [[ $? -eq 0 ]]; then
+            printf "%s\n" "${ANSI_LIGHT_GREEN}[OK]${ANSI_NOCOLOR}"
+          else
+            printf "%s\n" "${ANSI_LIGHT_RED}[FAILED]${ANSI_NOCOLOR}"
+            printf "::warning title=%s::%s\n" "setup-nvc" "Failed to remove 'nvc.pkg.tar.zst'."
+          fi
+
+      - name: 🚧 Run tests'
+        run: |
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl NVC
+
+      - name: '📤 Upload artifact: logs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.log
+            temp/*.html
+            temp/reports/*.html
+            temp/reports/**/*.html
+            temp/logs/**/*.*
+            temp/reports/*.css
+            temp/reports/osvvm.png
+          if-no-files-found: error
+
+      - name: '📤 Upload artifact: yaml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaml-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.yml
+          if-no-files-found: error
+
+      - name: '📤 Upload artifact: xml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xml-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
           include-hidden-files: true
           path: |
             temp/*.xml
@@ -105,7 +191,8 @@ jobs:
     name: 📊 Publish Unit Tests Results
     runs-on: ubuntu-24.04
     needs:
-      - RegressionTest
+      - GHDL
+#      - NVC
 
     if: always()
 
@@ -117,7 +204,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-          pattern: log-*
+          pattern: xml-*
           
       - name: List all artifacts
         run: |
