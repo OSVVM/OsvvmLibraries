@@ -120,6 +120,8 @@ jobs:
 
       - name: 🐧🛠️ Install NVC
         run: |
+          # See https://github.com/nickg/nvc/releases
+          # and https://github.com/nickg/nvc/issues/1131
           NVC_VERSION="1.15.0"
           NVC_DATE="20250111"
           NVC_HASH="ec21477e"
@@ -192,13 +194,13 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - GHDL
-#      - NVC
+      - NVC
 
     if: always()
 
     steps:
-#      - name: ⏬ Checkout repository
-#        uses: actions/checkout@v4
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
 
       - name: '📥 Download artifact: package'
         uses: actions/download-artifact@v4
