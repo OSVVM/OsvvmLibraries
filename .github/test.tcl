@@ -1,7 +1,2 @@
-if { [lindex $argv 0] eq "NVC" } {
-    source ../Scripts/StartNVC.tcl
-} else {
-    # default to GHDL
-    source ../Scripts/StartUp.tcl
-}
+source ../Scripts/[lindex $argv 0]
 build ../.github/OsvvmRegression.pro

@@ -1,4 +1,4 @@
-name: OSVVM Regression Testing on GHDL
+name: OSVVM Regression Testing
 
 on:
   push:
@@ -61,7 +61,7 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl GHDL
+          tclsh ../.github/test.tcl StartGHDL.tcl
 
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
@@ -154,7 +154,7 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl NVC
+          tclsh ../.github/test.tcl StartNVC.tcl
 
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
