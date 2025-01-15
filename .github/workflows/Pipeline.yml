@@ -8,6 +8,34 @@ on:
     - cron: '0 15 * * *'
 
 jobs:
+  Variables:
+    name: Compute pipeline variables
+    runs-on: ubuntu-24.04
+    outputs:
+      branch: ${{ steps.Variables.outputs.branch }}
+      tag:    ${{ steps.Variables.outputs.tag }}
+    steps:
+      - name: Compute variables
+        id: Variables
+        run: |
+          ref="${{ github.ref }}"
+          
+          branch=""
+          tag="2025.xx"
+          if [[ "${{ startsWith(github.ref, 'refs/heads/') }}" == "true" ]]; then
+            branch="${ref:11}"
+          elif [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
+            tag="${ref:10}"
+          else
+            printf "::error title=%s::%s\n" "Variables" "Unsupported Git reference format: '${ref}'."
+            exit 1
+          fi
+          
+          tee "${GITHUB_OUTPUT}" <<EOF
+          branch=${branch}
+          tag=${tag}
+          EOF
+
   GHDL:
     name: ${{ matrix.os.icon }}${{ matrix.os.name }} - GHDL ${{ matrix.backend }}
     runs-on: ${{ matrix.os.image }}
@@ -77,6 +105,7 @@ jobs:
             temp/reports/*.css
             temp/reports/osvvm.png
           if-no-files-found: error
+          retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
         uses: actions/upload-artifact@v4
@@ -86,6 +115,7 @@ jobs:
           path: |
             temp/*.yml
           if-no-files-found: error
+          retention-days: 1
 
       - name: '📤 Upload artifact: xml'
         uses: actions/upload-artifact@v4
@@ -95,14 +125,22 @@ jobs:
           path: |
             temp/*.xml
           if-no-files-found: error
+          retention-days: 1
 
   NVC:
-    name: 🪟Windows - NVC
-    runs-on: windows-2022
+    name: ${{ matrix.icon }}${{ matrix.name }} - NVC
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {icon: "🐧",   name: "Ubuntu",  image: "ubuntu-24.04", shell: "bash"}
+#          - {icon: "🪟",   name: "Windows", image: "windows-2022", shell: "powershell"}     # No TCL environment available. The embedded TCL of NVC doesn't contain tcllib.
+          - {icon: "🪟🟨", name: "Windows", image: "windows-2022", shell: "msys2 {0}"}       # Installation in Windows via MSI, but called from UCRT64.
 
     defaults:
       run:
-        shell: "msys2 {0}"
+        shell: ${{ matrix.shell }}
 
     steps:
       - name: ⏬ Checkout repository
@@ -110,47 +148,39 @@ jobs:
         with:
           submodules: recursive
 
-      - name: 🟨 Setup MSYS2 for UCRT64
+      - name: ${{ matrix.icon }} Setup MSYS2 for UCRT64
+        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
         uses: msys2/setup-msys2@v2
         with:
           msystem: ucrt64
           update: true
-          install: git
+          install: git tree
           pacboy: tcl:p tcllib:p
 
-      - name: 🐧🛠️ Install NVC
+      - name: 🐧🛠️ Install tcl and tcllib
+        if: matrix.name == 'Ubuntu'
         run: |
-          # See https://github.com/nickg/nvc/releases
-          # and https://github.com/nickg/nvc/issues/1131
-          NVC_VERSION="1.15.0"
-          NVC_DATE="20250111"
-          NVC_HASH="ec21477e"
-          
-          ANSI_LIGHT_RED=$'\x1b[91m'
-          ANSI_LIGHT_GREEN=$'\x1b[92m'
-          ANSI_LIGHT_BLUE="\e[94m"
-          ANSI_NOCOLOR=$'\x1b[0m'
-          
-          DOWNLOAD_URL="https://github.com/nickg/nvc/releases/download/r${NVC_VERSION}/mingw-w64-ucrt-x86_64-nvc-${NVC_VERSION}.git${NVC_DATE}.${NVC_HASH}-1-any.pkg.tar.zst"
-          printf "::group::${ANSI_LIGHT_BLUE}%s${ANSI_NOCOLOR}\n" "Downloading asset from '${DOWNLOAD_URL}' ..."
-          curl -L "${DOWNLOAD_URL}" -o nvc.pkg.tar.zst
-          printf "::endgroup::\n"
-  
-          printf "::group::${ANSI_LIGHT_BLUE}%s${ANSI_NOCOLOR}\n" "Installing 'nvc.pkg.tar.zst' file ..."
-          pacman -U --noconfirm nvc.pkg.tar.zst
-          printf "::endgroup::\n"
-  
-          printf "Deleting '%s' ... " "nvc.pkg.tar.zst"
-          rm "nvc.pkg.tar.zst"
-          if [[ $? -eq 0 ]]; then
-            printf "%s\n" "${ANSI_LIGHT_GREEN}[OK]${ANSI_NOCOLOR}"
-          else
-            printf "%s\n" "${ANSI_LIGHT_RED}[FAILED]${ANSI_NOCOLOR}"
-            printf "::warning title=%s::%s\n" "setup-nvc" "Failed to remove 'nvc.pkg.tar.zst'."
-          fi
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tcl tcllib
 
-      - name: 🚧 Run tests'
+      - name: Install NVC
+        uses: nickg/setup-nvc-ci@v1
+        with:
+          version: latest
+
+      - name: 🚧 Run tests on Ubuntu
+        if: matrix.name == 'Ubuntu'
         run: |
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl StartNVC.tcl
+
+      - name: 🚧 Run tests on Windows + MSYS2/UCRT64
+        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
+        run: |
+          export PATH="/c/Program Files/NVC/bin:$PATH"
+
           mkdir temp
           cd temp
 
@@ -159,7 +189,7 @@ jobs:
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
+          name: log-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
             temp/*.log
@@ -170,27 +200,30 @@ jobs:
             temp/reports/*.css
             temp/reports/osvvm.png
           if-no-files-found: error
+          retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
         uses: actions/upload-artifact@v4
         with:
-          name: yaml-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
+          name: yaml-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
             temp/*.yml
           if-no-files-found: error
+          retention-days: 1
 
       - name: '📤 Upload artifact: xml'
         uses: actions/upload-artifact@v4
         with:
-          name: xml-${{ matrix.os.name }}-nvc-${{ matrix.backend }}
+          name: xml-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
             temp/*.xml
           if-no-files-found: error
+          retention-days: 1
 
   PublishTestResults:
-    name: 📊 Publish Unit Tests Results
+    name: 📊 Publish Tests Results
     runs-on: ubuntu-24.04
     needs:
       - GHDL
@@ -205,21 +238,50 @@ jobs:
       - name: '📥 Download artifact: package'
         uses: actions/download-artifact@v4
         with:
-          path: artifacts
           pattern: xml-*
-          
-      - name: List all artifacts
+          path: artifacts
+
+      - name: 🔎 Inspect all artifacts
         run: |
           tree artifacts
 
+      - name: 🔧 Install pyEDAA.Reports (JUunit Parser and Merger)
+        run: |
+          python -m pip install --disable-pip-version-check --break-system-packages -U pyEDAA.Reports
+
+      - name: Rename JUnit files and move them all into 'junit/'
+        run: |
+          mkdir -p junit
+          find artifacts/ -type f -path "*.xml" -exec sh -c 'cp -v $0 "junit/$(basename $(dirname $0)).$(basename $0)"' {} ';'
+          tree -pash junit
+
+      - name: 🔁 Merge JUnit Unit Test Summaries
+        run: |
+          pyedaa-reports -d unittest \
+            "--merge=pyTest-JUnit:junit/*.xml" \
+            --render=tree \
+            "--name=OSVVM Regression" \
+            "--output=Any-JUnit:Unittesting.xml"
+          printf "%s\n" "cat Unittesting.xml"
+          cat Unittesting.xml
+
       - name: 📊 Publish Unit Test Results
         uses: dorny/test-reporter@v1
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           name: OSVVM VC Regression Results
-          path: artifacts/**/*.xml
+          path: Unittesting.xml
           reporter: java-junit
-          list-suites: all
-          list-tests: failed
+#          list-suites: all
+#          list-tests: failed
+
+      - name: 📤 Upload merged 'JUnit Test Summary' artifact
+        uses: pyTooling/upload-artifact@v4
+        with:
+          name: xml
+          path: Unittesting.xml
+          if-no-files-found: error
+          retention-days: 1
 
   Package:
     name: Package OSVVMLibraries incl. all Git submodules as artifact
@@ -230,15 +292,76 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: OsvvmLibraries
+          submodules: recursive
 
       - name: List content of 'OsvvmLibraries' ...
         run: |
           tree OsvvmLibraries
 
       - name: '📤 Upload artifact: osvvm'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v4
         with:
           name: osvvm
+          working-directory: OsvvmLibraries
           path: |
-            OsvvmLibraries/*
+            *
+          include-hidden-files: true
           if-no-files-found: error
+          retention-days: 1
+
+  Release:
+    uses: pyTooling/Actions/.github/workflows/NightlyRelease.yml@dev
+    needs:
+      - Variables
+      - Package
+      - GHDL
+      - NVC
+#    if: github.ref == 'refs/tags/testing'
+#    if: startsWith(github.ref, 'refs/tags/v')
+    secrets: inherit
+    permissions:
+      contents: write
+      actions: write
+      attestations: write
+    with:
+      prerelease: true
+      replacements: |
+        osvvm=${{ needs.Variables.outputs.tag }}
+      nightly_name: testing
+      nightly_description: |
+        This release contains all important artifacts created by OSVVM's CI pipeline.
+
+        # OSVVM %osvvm%
+
+        All Git repositories and submodules have been packaged in a single zip file. This file contains the following
+        OSVVM components.
+
+        ## Core Components
+        * [OSVVM Utility Library](https://github.com/OSVVM/OSVVM)
+        * [OSVVM Model Independent Transactions](https://github.com/OSVVM/OSVVM-Common)
+        
+        ## Verification Components
+        * [AXI4](https://github.com/OSVVM/AXI4)
+        * [CoSim](https://github.com/OSVVM/CoSim)
+        * [DpRam](https://github.com/OSVVM/DpRam)
+        * [Ethernet](https://github.com/OSVVM/Ethernet)
+        * [UART](https://github.com/OSVVM/UART)
+        
+        ## Third-Party Verification Components
+        * [SPI (by Guy Eschemann)](https://github.com/OSVVM/SPI_GuyEschemann)
+        * [VideoBus (by Louis Adriaens)](https://github.com/OSVVM/VideoBus_LouisAdriaens)
+        
+        ## Scripting
+        * [OSVVM Scripts](https://github.com/OSVVM/OSVVM-Scripts)
+        
+        ## Documentation
+        
+        * [Documentation](https://github.com/OSVVM/Documentation)
+
+      inventory-json: "inventory.json"
+      inventory-version: ${{ needs.Variables.outputs.tag }}
+      inventory-categories: "kind"
+      assets: |
+        osvvm: !OsvvmLibraries-%osvvm%.zip:     osvvm,zip:  OsvvmLibraries - %osvvm% - all-in-one (ZIP)
+        osvvm: $OsvvmLibraries-%osvvm%.tar.gz:  osvvm,tgz:  OsvvmLibraries - %osvvm% - all-in-one (TAR/GZ)
+        osvvm: $OsvvmLibraries-%osvvm%.tar.zst: osvvm,tzst: OsvvmLibraries - %osvvm% - all-in-one (TAR/ZST)
