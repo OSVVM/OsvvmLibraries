@@ -1,2 +1,2 @@
 source ../Scripts/[lindex $argv 0]
-build ../.github/OsvvmRegression.pro
+build ../OsvvmRegression.pro

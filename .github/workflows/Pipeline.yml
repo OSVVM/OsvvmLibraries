@@ -9,13 +9,13 @@ on:
 
 jobs:
   Variables:
-    name: Compute pipeline variables
+    name: 🖩 Pipeline variables
     runs-on: ubuntu-24.04
     outputs:
       branch: ${{ steps.Variables.outputs.branch }}
       tag:    ${{ steps.Variables.outputs.tag }}
     steps:
-      - name: Compute variables
+      - name: 🖩 Compute pipeline variables
         id: Variables
         run: |
           ref="${{ github.ref }}"
@@ -163,7 +163,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends tcl tcllib
 
-      - name: Install NVC
+      - name: 🔧 Install NVC
         uses: nickg/setup-nvc-ci@v1
         with:
           version: latest
@@ -222,6 +222,8 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  # The following job is based on pyTooling/PublishTestResults, but specialized for OSVVM's needs.
+  # * Changed to another JUnit dialect (pyTest-JUnit -> Any-JUnit)
   PublishTestResults:
     name: 📊 Publish Tests Results
     runs-on: ubuntu-24.04
@@ -258,10 +260,10 @@ jobs:
       - name: 🔁 Merge JUnit Unit Test Summaries
         run: |
           pyedaa-reports -d unittest \
-            "--merge=pyTest-JUnit:junit/*.xml" \
+            "--merge=Any-JUnit:junit/*.xml" \
             --render=tree \
             "--name=OSVVM Regression" \
-            "--output=Any-JUnit:Unittesting.xml"
+            "--output=pyTest-JUnit:Unittesting.xml"
           printf "%s\n" "cat Unittesting.xml"
           cat Unittesting.xml
 
@@ -284,7 +286,7 @@ jobs:
           retention-days: 1
 
   Package:
-    name: Package OSVVMLibraries incl. all Git submodules as artifact
+    name: 📦 Package OSVVMLibraries incl. all Git submodules as artifact
     runs-on: ubuntu-24.04
 
     steps:
@@ -294,7 +296,7 @@ jobs:
           path: OsvvmLibraries
           submodules: recursive
 
-      - name: List content of 'OsvvmLibraries' ...
+      - name: 🔎 Inspect content of 'OsvvmLibraries' ...
         run: |
           tree OsvvmLibraries
 
@@ -305,6 +307,7 @@ jobs:
           working-directory: OsvvmLibraries
           path: |
             *
+            .git*
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 1
