@@ -296,6 +296,10 @@ jobs:
           path: OsvvmLibraries
           submodules: recursive
 
+      - name: Remove .git directory
+        run: |
+          rm -Rf OsvvmLibraries/.git
+
       - name: 🔎 Inspect content of 'OsvvmLibraries' ...
         run: |
           tree OsvvmLibraries
