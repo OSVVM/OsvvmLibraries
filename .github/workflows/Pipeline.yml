@@ -26,6 +26,8 @@ jobs:
             branch="${ref:11}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
             tag="${ref:10}"
+          elif [[ "${{ startsWith(github.ref, 'refs/pull/') }}" == "true" ]]; then
+            printf "Detected a pull request.\n"
           else
             printf "::error title=%s::%s\n" "Variables" "Unsupported Git reference format: '${ref}'."
             exit 1
