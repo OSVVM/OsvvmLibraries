@@ -1,0 +1,384 @@
+name: OSVVM Regression Testing
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'
+
+jobs:
+  Variables:
+    name: 💻 Pipeline variables
+    runs-on: ubuntu-24.04
+    outputs:
+      branch: ${{ steps.Variables.outputs.branch }}
+      tag:    ${{ steps.Variables.outputs.tag }}
+    steps:
+      - name: 💻 Compute pipeline variables
+        id: Variables
+        run: |
+          ref="${{ github.ref }}"
+          
+          branch=""
+          tag=""
+          if [[ "${{ startsWith(github.ref, 'refs/heads/') }}" == "true" ]]; then
+            branch="${ref:11}"
+          elif [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
+            tag="${ref:10}"
+          elif [[ "${{ startsWith(github.ref, 'refs/pull/') }}" == "true" ]]; then
+            printf "Detected a pull request.\n"
+          else
+            printf "::error title=%s::%s\n" "Variables" "Unsupported Git reference format: '${ref}'."
+            exit 1
+          fi
+          
+          tee "${GITHUB_OUTPUT}" <<EOF
+          branch=${branch}
+          tag=${tag}
+          EOF
+
+  GHDL:
+    name: ${{ matrix.os.icon }}${{ matrix.os.name }} - GHDL ${{ matrix.backend }}
+    runs-on: ${{ matrix.os.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - {icon: "🐧",   name: "Ubuntu",  image: "ubuntu-24.04", shell: "bash",      runtime: ""}
+          - {icon: "🍏",   name: "macOS",   image: "macos-14",     shell: "bash",      runtime: ""}       # Wrong float values in generated XML, due to missing elapsed time in YAML files.
+          - {icon: "🪟🟨", name: "Windows", image: "windows-2022", shell: "msys2 {0}", runtime: "ucrt64"}
+        backend:
+          - mcode
+          - llvm
+        exclude:
+          - {os: {name: "macOS"}, backend: "mcode"}   # mcode is not supported for aarch64
+
+    defaults:
+      run:
+        shell: ${{ matrix.os.shell }}
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: ${{ matrix.os.icon }} Setup MSYS2 for ${{ matrix.os.runtime }}
+        uses: msys2/setup-msys2@v2
+        if: runner.os == 'Windows' && matrix.os.runtime != ''
+        with:
+          msystem: ${{ matrix.os.runtime }}
+          update: true
+          install: git
+          pacboy: tcl:p tcllib:p
+
+      - name: ⚙️ Setup GHDL
+        uses: ghdl/setup-ghdl@v1
+        with:
+          version: nightly
+          runtime: ${{ matrix.os.runtime }}
+          backend: ${{ matrix.backend }}
+
+      - name: 🐧🛠️ Install tcl and tcllib
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tcl tcllib
+
+      - name: 🍏🔧 Install newer TCL on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install tcl-tk
+
+      - name: 🐛 Debug TCL version
+        run: |
+          echo 'puts [info patchlevel];exit 0' | tclsh
+          echo 'puts $tcl_version;exit 0'      | tclsh
+
+      - name: 🚧 Run tests
+        run: |
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl StartGHDL.tcl
+
+      - name: '📤 Upload artifact: logs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.log
+            temp/*.html
+            temp/reports/*.html
+            temp/reports/**/*.html
+            temp/logs/**/*.*
+            temp/reports/*.css
+            temp/reports/osvvm.png
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: '📤 Upload artifact: yaml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.yml
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: '📤 Upload artifact: xml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
+          include-hidden-files: true
+          path: |
+            temp/*.xml
+          if-no-files-found: error
+          retention-days: 1
+
+  NVC:
+    name: ${{ matrix.icon }}${{ matrix.name }} - NVC
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {icon: "🐧",   name: "Ubuntu",  image: "ubuntu-24.04", shell: "bash"}
+##          - {icon: "🪟",   name: "Windows", image: "windows-2022", shell: "powershell"}    # No TCL environment available. The embedded TCL of NVC doesn't contain tcllib.
+          - {icon: "🪟🟨", name: "Windows", image: "windows-2022", shell: "msys2 {0}"}       # Installation in Windows via MSI, but called from UCRT64.
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: ${{ matrix.icon }} Setup MSYS2 for UCRT64
+        uses: msys2/setup-msys2@v2
+        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
+        with:
+          msystem: ucrt64
+          update: true
+          install: git tree
+          pacboy: tcl:p tcllib:p
+
+      - name: 🐧🛠️ Install tcl and tcllib
+        if: matrix.name == 'Ubuntu'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends tcl tcllib
+
+      - name: 🔧 Install NVC
+        uses: nickg/setup-nvc-ci@v1
+        with:
+          version: latest
+
+      - name: 🚧 Run tests on Ubuntu
+        if: matrix.name == 'Ubuntu'
+        run: |
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl StartNVC.tcl
+
+      - name: 🚧 Run tests on Windows + MSYS2/UCRT64
+        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
+        run: |
+          export PATH="/c/Program Files/NVC/bin:$PATH"
+
+          mkdir temp
+          cd temp
+
+          tclsh ../.github/test.tcl StartNVC.tcl
+
+      - name: '📤 Upload artifact: logs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.name }}-nvc
+          include-hidden-files: true
+          path: |
+            temp/*.log
+            temp/*.html
+            temp/reports/*.html
+            temp/reports/**/*.html
+            temp/logs/**/*.*
+            temp/reports/*.css
+            temp/reports/osvvm.png
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: '📤 Upload artifact: yaml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaml-${{ matrix.name }}-nvc
+          include-hidden-files: true
+          path: |
+            temp/*.yml
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: '📤 Upload artifact: xml'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xml-${{ matrix.name }}-nvc
+          include-hidden-files: true
+          path: |
+            temp/*.xml
+          if-no-files-found: error
+          retention-days: 1
+
+  # The following job is based on pyTooling/PublishTestResults, but specialized for OSVVM's needs.
+  # * Changed to another JUnit dialect (pyTest-JUnit -> Any-JUnit)
+  PublishTestResults:
+    name: 📊 Publish Tests Results
+    runs-on: ubuntu-24.04
+    needs:
+      - GHDL
+      - NVC
+
+    if: always()
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: '📥 Download artifact: package'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: xml-*
+          path: artifacts
+
+      - name: 🔎 Inspect all artifacts
+        run: |
+          tree artifacts
+
+      - name: 🔧 Install pyEDAA.Reports (JUunit Parser and Merger)
+        run: |
+          python -m pip install --disable-pip-version-check --break-system-packages -U pyEDAA.Reports
+
+      - name: Rename JUnit files and move them all into 'junit/'
+        run: |
+          mkdir -p junit
+          find artifacts/ -type f -path "*.xml" -exec sh -c 'cp -v $0 "junit/$(basename $(dirname $0)).$(basename $0)"' {} ';'
+          tree -pash junit
+
+      - name: 🔁 Merge JUnit Unit Test Summaries
+        run: |
+          pyedaa-reports -d unittest \
+            "--merge=Any-JUnit:junit/*.xml" \
+            --render=tree \
+            "--name=OSVVM Regression" \
+            "--output=pyTest-JUnit:Unittesting.xml"
+          printf "%s\n" "cat Unittesting.xml"
+          cat Unittesting.xml
+
+      - name: 📊 Publish Unit Test Results
+        uses: dorny/test-reporter@v1
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          name: OSVVM VC Regression Results
+          path: Unittesting.xml
+          reporter: java-junit
+#          list-suites: all
+#          list-tests: failed
+
+      - name: 📤 Upload merged 'JUnit Test Summary' artifact
+        uses: pyTooling/upload-artifact@v4
+        with:
+          name: xml
+          path: Unittesting.xml
+          if-no-files-found: error
+          retention-days: 1
+
+  Package:
+    name: 📦 Package OSVVMLibraries incl. all Git submodules as artifact
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: ⏬ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: OsvvmLibraries
+          submodules: recursive
+
+      - name: Remove .git directory
+        run: |
+          rm -Rf OsvvmLibraries/.git
+
+      - name: 🔎 Inspect content of 'OsvvmLibraries' ...
+        run: |
+          tree OsvvmLibraries
+
+      - name: '📤 Upload artifact: osvvm'
+        uses: pyTooling/upload-artifact@v4
+        with:
+          name: osvvm
+          working-directory: OsvvmLibraries
+          path: |
+            *
+            .git*
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
+
+  Release:
+    uses: pyTooling/Actions/.github/workflows/NightlyRelease.yml@dev
+    needs:
+      - Variables
+      - Package
+      - GHDL
+      - NVC
+    if: startsWith(github.ref, 'refs/tags/')
+    secrets: inherit
+    permissions:
+      contents: write
+      actions: write
+      attestations: write
+    with:
+      replacements: |
+        osvvm=${{ needs.Variables.outputs.tag }}
+      nightly_name: testing
+      nightly_description: |
+        This release contains all important artifacts created by OSVVM's CI pipeline.
+
+        # OSVVM %osvvm%
+
+        All Git repositories and submodules have been packaged in a single zip file. This file contains the following
+        OSVVM components.
+
+        ## Core Components
+        * [OSVVM Utility Library](https://github.com/OSVVM/OSVVM)
+        * [OSVVM Model Independent Transactions](https://github.com/OSVVM/OSVVM-Common)
+        
+        ## Verification Components
+        * [AXI4](https://github.com/OSVVM/AXI4)
+        * [CoSim](https://github.com/OSVVM/CoSim)
+        * [DpRam](https://github.com/OSVVM/DpRam)
+        * [Ethernet](https://github.com/OSVVM/Ethernet)
+        * [UART](https://github.com/OSVVM/UART)
+        
+        ## Third-Party Verification Components
+        * [SPI (by Guy Eschemann)](https://github.com/OSVVM/SPI_GuyEschemann)
+        * [VideoBus (by Louis Adriaens)](https://github.com/OSVVM/VideoBus_LouisAdriaens)
+        
+        ## Scripting
+        * [OSVVM Scripts](https://github.com/OSVVM/OSVVM-Scripts)
+        
+        ## Documentation
+        
+        * [Documentation](https://github.com/OSVVM/Documentation)
+
+      inventory-json: "inventory.json"
+      inventory-version: ${{ needs.Variables.outputs.tag }}
+      inventory-categories: "kind"
+      assets: |
+        osvvm: !OsvvmLibraries-%osvvm%.zip:     osvvm,zip:  OsvvmLibraries - %osvvm% - all-in-one (ZIP)
+        osvvm: $OsvvmLibraries-%osvvm%.tar.gz:  osvvm,tgz:  OsvvmLibraries - %osvvm% - all-in-one (TAR/GZ)
+        osvvm: $OsvvmLibraries-%osvvm%.tar.zst: osvvm,tzst: OsvvmLibraries - %osvvm% - all-in-one (TAR/ZST)
