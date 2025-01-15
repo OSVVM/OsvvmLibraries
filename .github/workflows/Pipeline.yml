@@ -44,7 +44,7 @@ jobs:
       matrix:
         os:
           - {icon: "🐧",   name: "Ubuntu",  image: "ubuntu-24.04", shell: "bash",      runtime: ""}
-#          - {icon: "🍏",   name: "macOS",   image: "macos-14",     shell: "bash",      runtime: ""}       # Wrong float values in generated XML.
+          - {icon: "🍏",   name: "macOS",   image: "macos-14",     shell: "bash",      runtime: ""}       # Wrong float values in generated XML, due to missing elapsed time in YAML files.
           - {icon: "🪟🟨", name: "Windows", image: "windows-2022", shell: "msys2 {0}", runtime: "ucrt64"}
         backend:
           - mcode
@@ -84,7 +84,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends tcl tcllib
 
-      - name: 🚧 Run tests'
+      - name: 🍏🔧 Install newer TCL on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install tcl-tk
+
+      - name: 🐛 Debug TCL version
+        run: |
+          echo 'puts [info patchlevel];exit 0' | tclsh
+          echo 'puts $tcl_version;exit 0'      | tclsh
+
+      - name: 🚧 Run tests
         run: |
           mkdir temp
           cd temp
