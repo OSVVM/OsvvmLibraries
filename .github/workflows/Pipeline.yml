@@ -9,13 +9,13 @@ on:
 
 jobs:
   Variables:
-    name: 🖩 Pipeline variables
+    name: 💻 Pipeline variables
     runs-on: ubuntu-24.04
     outputs:
       branch: ${{ steps.Variables.outputs.branch }}
       tag:    ${{ steps.Variables.outputs.tag }}
     steps:
-      - name: 🖩 Compute pipeline variables
+      - name: 💻 Compute pipeline variables
         id: Variables
         run: |
           ref="${{ github.ref }}"
@@ -50,7 +50,7 @@ jobs:
           - mcode
           - llvm
         exclude:
-          - {os: {name: "macOS"}, backend: "mcode"}
+          - {os: {name: "macOS"}}  #, backend: "mcode"}
 
     defaults:
       run:
@@ -63,8 +63,8 @@ jobs:
           submodules: recursive
 
       - name: ${{ matrix.os.icon }} Setup MSYS2 for ${{ matrix.os.runtime }}
-        if: runner.os == 'Windows' && matrix.os.runtime != ''
         uses: msys2/setup-msys2@v2
+        if: runner.os == 'Windows' && matrix.os.runtime != ''
         with:
           msystem: ${{ matrix.os.runtime }}
           update: true
@@ -149,8 +149,8 @@ jobs:
           submodules: recursive
 
       - name: ${{ matrix.icon }} Setup MSYS2 for UCRT64
-        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
         uses: msys2/setup-msys2@v2
+        if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
         with:
           msystem: ucrt64
           update: true
