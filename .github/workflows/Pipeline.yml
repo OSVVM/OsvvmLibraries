@@ -21,7 +21,7 @@ jobs:
           ref="${{ github.ref }}"
           
           branch=""
-          tag="2025.xx"
+          tag=""
           if [[ "${{ startsWith(github.ref, 'refs/heads/') }}" == "true" ]]; then
             branch="${ref:11}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
@@ -333,14 +333,13 @@ jobs:
       - Package
       - GHDL
       - NVC
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/')
     secrets: inherit
     permissions:
       contents: write
       actions: write
       attestations: write
     with:
-      prerelease: true
       replacements: |
         osvvm=${{ needs.Variables.outputs.tag }}
       nightly_name: testing
