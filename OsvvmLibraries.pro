@@ -58,7 +58,7 @@ if {[DirectoryExists VideoBus_LouisAdriaens]} {
 if {[DirectoryExists SPI_GuyEschemann]} { 
   include ./SPI_GuyEschemann/spi.pro
 }
-if {($::osvvm::ToolNameVersion ne "XSIM-2023.2") && ($::osvvm::ToolVendor ne "Cadence")} {
+if {($::osvvm::ToolName ne "XSIM") && ($::osvvm::ToolVendor ne "Cadence") && ($::osvvm::ToolVendor ne "Synopsys")} {
   if {[DirectoryExists CoSim]} { 
     include ./CoSim/CoSim.pro
   }
