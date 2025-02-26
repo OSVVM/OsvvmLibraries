@@ -344,7 +344,7 @@ jobs:
     with:
       replacements: |
         osvvm=${{ needs.Variables.outputs.tag }}
-      nightly_name: testing
+      nightly_name: ${{ needs.Variables.outputs.tag }}
       nightly_description: |
         This release contains all important artifacts created by OSVVM's CI pipeline.
 
@@ -374,6 +374,7 @@ jobs:
         ## Documentation
         
         * [Documentation](https://github.com/OSVVM/Documentation)
+        * [Further resources available at OSVVM.org](https://OSVVM.org)
 
       inventory-json: "inventory.json"
       inventory-version: ${{ needs.Variables.outputs.tag }}
