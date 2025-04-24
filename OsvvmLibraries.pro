@@ -46,6 +46,9 @@ if {[DirectoryExists UART]} {
 if {[DirectoryExists AXI4]} { 
   include ./AXI4/AXI4.pro
 }
+if {[DirectoryExists Wishbone]} { 
+  include ./Wishbone/build.pro
+}
 if {[DirectoryExists DpRam]} { 
   include ./DpRam/DpRam.pro
 }
