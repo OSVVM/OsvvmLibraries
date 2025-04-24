@@ -32,6 +32,3 @@
 	path = SPI_GuyEschemann
 	url = ../SPI_GuyEschemann.git
 	branch = main
-[submodule "Wishbone"]
-	path = Wishbone
-	url = ../Wishbone
