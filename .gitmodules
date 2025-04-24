@@ -34,4 +34,4 @@
 	branch = main
 [submodule "Wishbone"]
 	path = Wishbone
-	url = https://github.com/OSVVM/Wishbone
+	url = ../Wishbone.git
