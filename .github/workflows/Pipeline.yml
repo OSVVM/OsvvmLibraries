@@ -106,7 +106,7 @@ jobs:
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
+          name: log-html-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
           path: |
             temp/*.log
@@ -115,7 +115,9 @@ jobs:
             temp/reports/**/*.html
             temp/logs/**/*.*
             temp/reports/*.css
-            temp/reports/osvvm.png
+            temp/reports/*.png
+            temp/results/**/*.log
+            temp/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
@@ -201,7 +203,7 @@ jobs:
       - name: '📤 Upload artifact: logs'
         uses: actions/upload-artifact@v4
         with:
-          name: log-${{ matrix.name }}-nvc
+          name: log-html-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
             temp/*.log
@@ -210,7 +212,9 @@ jobs:
             temp/reports/**/*.html
             temp/logs/**/*.*
             temp/reports/*.css
-            temp/reports/osvvm.png
+            temp/reports/*.png
+            temp/results/**/*.log
+            temp/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
