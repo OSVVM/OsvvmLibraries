@@ -37,6 +37,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+# BuildName OsvvmRunDemoTests_$::osvvm::ToolNameVersion
+BuildName OsvvmRunDemoTests
 if {[DirectoryExists AXI4]} { 
   include ./AXI4/Axi4/RunDemoTests.pro
   include ./AXI4/AxiStream/RunDemoTests.pro

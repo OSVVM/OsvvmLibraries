@@ -63,25 +63,12 @@ if {[DirectoryExists Ethernet]} {
   include ./Ethernet/RunAllTests.pro
 }
 
-if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
-  if {[DirectoryExists VideoBus_LouisAdriaens]} { 
-    include ./VideoBus_LouisAdriaens/RunAllTests.pro
-  }
-} else {
-#  TestSuite VideoBus
-#  SkipTest VideoBus "VideoBus VC not updated for Xilinx"
+if {[DirectoryExists VideoBus_LouisAdriaens]} { 
+  include ./VideoBus_LouisAdriaens/RunAllTests.pro
 }
 
-if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
-  if {[DirectoryExists SPI_GuyEschemann]} { 
-  #
-  #  include ./SPI_GuyEschemann/RunAllTests.pro
-#  TestSuite SPI
-#  SkipTest SPI      "SPI VC tested using a separate design not included with OSVVM"
-  }
-} else {
-#  TestSuite SPI
-#  SkipTest SPI      "SPI VC not updated for Xilinx"
+if {[DirectoryExists SPI_GuyEschemann]} { 
+#  include ./SPI_GuyEschemann/RunAllTests.pro
 }
 
 

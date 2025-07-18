@@ -37,32 +37,32 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-include ./osvvm/osvvm.pro
-include ./Common/Common.pro
+include ./osvvm
+include ./Common
 
 if {[DirectoryExists UART]} { 
-  include ./UART/UART.pro
+  include ./UART
 }
 if {[DirectoryExists AXI4]} { 
-  include ./AXI4/AXI4.pro
+  include ./AXI4
 }
 if {[DirectoryExists Wishbone]} { 
-  include ./Wishbone/build.pro
+  include ./Wishbone
 }
 if {[DirectoryExists DpRam]} { 
-  include ./DpRam/DpRam.pro
+  include ./DpRam
 }
 if {[DirectoryExists Ethernet]} { 
-  include ./Ethernet/Ethernet.pro
+  include ./Ethernet
 }
 if {[DirectoryExists VideoBus_LouisAdriaens]} { 
-  include ./VideoBus_LouisAdriaens/VideoBus.pro
+  include ./VideoBus_LouisAdriaens
 }
 if {[DirectoryExists SPI_GuyEschemann]} { 
-  include ./SPI_GuyEschemann/spi.pro
+  include ./SPI_GuyEschemann
 }
 if {($::osvvm::ToolName ne "XSIM") && ($::osvvm::ToolVendor ne "Cadence") && ($::osvvm::ToolVendor ne "Synopsys")} {
   if {[DirectoryExists CoSim]} { 
-    include ./CoSim/CoSim.pro
+    include ./CoSim
   }
 }
