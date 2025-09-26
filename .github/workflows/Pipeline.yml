@@ -10,6 +10,8 @@ on:
 jobs:
   Prepare:
     uses: pyTooling/Actions/.github/workflows/PrepareJob.yml@r6
+    with:
+      release_tag_pattern: '2\d{3}\.\d{2}[a-z]?'
 
   GHDL:
     name: ${{ matrix.os.icon }}${{ matrix.os.name }} - GHDL ${{ matrix.backend }}
@@ -317,8 +319,8 @@ jobs:
       contents: write  # required for create tag
       actions:  write  # required for trigger workflow
     with:
-      version:  ${{ needs.Prepare.outputs.version }}
-      auto_tag: ${{ needs.Prepare.outputs.is_release_commit }}
+      version:             ${{ needs.Prepare.outputs.version }}
+      auto_tag:            ${{ needs.Prepare.outputs.is_release_commit }}
     secrets: inherit
 
   Release:
