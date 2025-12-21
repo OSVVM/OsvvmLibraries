@@ -9,7 +9,7 @@ on:
 
 jobs:
   Prepare:
-    uses: pyTooling/Actions/.github/workflows/PrepareJob.yml@r6
+    uses: pyTooling/Actions/.github/workflows/PrepareJob.yml@r7
     with:
       release_tag_pattern: '2\d{3}\.\d{2}[a-z]?'
 
@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -133,7 +133,7 @@ jobs:
 
     steps:
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -226,10 +226,10 @@ jobs:
 
     steps:
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: '📥 Download artifact: package'
-        uses: actions/download-artifact@v5
+        uses: pyTooling/download-artifact@v7
         with:
           pattern: xml-*
           path: artifacts
@@ -269,7 +269,7 @@ jobs:
 #          list-tests: failed
 
       - name: 📤 Upload merged 'JUnit Test Summary' artifact
-        uses: pyTooling/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v6
         with:
           name: xml
           path: Unittesting.xml
@@ -282,7 +282,7 @@ jobs:
 
     steps:
       - name: ⏬ Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: OsvvmLibraries
           submodules: recursive
@@ -296,7 +296,7 @@ jobs:
           tree OsvvmLibraries
 
       - name: '📤 Upload artifact: osvvm'
-        uses: pyTooling/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v6
         with:
           name: osvvm
           working-directory: OsvvmLibraries
@@ -308,7 +308,7 @@ jobs:
           retention-days: 1
 
   TriggerTaggedRelease:
-    uses: pyTooling/Actions/.github/workflows/TagReleaseCommit.yml@r6
+    uses: pyTooling/Actions/.github/workflows/TagReleaseCommit.yml@r7
     needs:
       - Prepare
       - Package
@@ -324,7 +324,7 @@ jobs:
     secrets: inherit
 
   Release:
-    uses: pyTooling/Actions/.github/workflows/PublishReleaseNotes.yml@r6
+    uses: pyTooling/Actions/.github/workflows/PublishReleaseNotes.yml@r7
     needs:
       - Prepare
       - Package
