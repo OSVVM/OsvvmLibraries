@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Maintain GitHub Action runners
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: dev
+    commit-message:
+      prefix: "[Dependabot]"
+    labels:
+      - Dependencies
+    assignees:
+      - JimLewis
+      - Paebbels
+    schedule:
+      interval: "daily"    # Checks on Monday trough Friday.
