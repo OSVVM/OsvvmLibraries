@@ -5,6 +5,10 @@ This release contains all important artifacts created by OSVVM's CI pipeline.
 All Git repositories and submodules have been packaged in a single zip file. This file contains the following
 OSVVM components.
 
+## Release Files
+
+%%ASSETS%%
+
 ## Core Components
 * [OSVVM Utility Library](https://github.com/OSVVM/OSVVM)
 * [OSVVM Model Independent Transactions](https://github.com/OSVVM/OSVVM-Common)
