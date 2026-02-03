@@ -37,5 +37,5 @@
 	url = ../Wishbone.git
 [submodule ".github/CoSimPCIe"]
 	path = .github/CoSimPCIe
-	url = ../../OSVVM/CoSimPCIe.git
+	url = ../CoSimPCIe.git
 	branch = main
