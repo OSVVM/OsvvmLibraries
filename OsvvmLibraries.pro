@@ -65,4 +65,8 @@ if {($::osvvm::ToolName ne "XSIM") && ($::osvvm::ToolVendor ne "Cadence") && ($:
   if {[DirectoryExists CoSim]} { 
     include ./CoSim
   }
+  if {[DirectoryExists CoSimPCIe]} { 
+    include ./CoSimPCIe
+  }
+
 }
