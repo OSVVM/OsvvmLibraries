@@ -79,7 +79,7 @@ jobs:
           tclsh ../.github/test.tcl StartGHDL.tcl
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: log-html-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
@@ -97,7 +97,7 @@ jobs:
           retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: yaml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
@@ -107,7 +107,7 @@ jobs:
           retention-days: 1
 
       - name: '📤 Upload artifact: xml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: xml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
@@ -176,7 +176,7 @@ jobs:
           tclsh ../.github/test.tcl StartNVC.tcl
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: log-html-${{ matrix.name }}-nvc
           include-hidden-files: true
@@ -194,7 +194,7 @@ jobs:
           retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: yaml-${{ matrix.name }}-nvc
           include-hidden-files: true
@@ -204,7 +204,7 @@ jobs:
           retention-days: 1
 
       - name: '📤 Upload artifact: xml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: xml-${{ matrix.name }}-nvc
           include-hidden-files: true
@@ -248,7 +248,7 @@ jobs:
           tree OsvvmLibraries
 
       - name: '📤 Upload artifact: osvvm'
-        uses: pyTooling/upload-artifact@v6
+        uses: pyTooling/upload-artifact@v7
         with:
           name: osvvm
           working-directory: OsvvmLibraries
