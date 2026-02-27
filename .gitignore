@@ -3,3 +3,5 @@ sim_aldec
 sim_mentor
 
 temp/
+
+**/.sigasi/generated/
