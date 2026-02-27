@@ -76,23 +76,24 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartGHDL.tcl
+          tclsh ../.github/regression.tcl StartUp.tcl "${{ matrix.os.name }}-ghdl-${{ matrix.backend }}"
 
       - name: '📤 Upload artifact: logs'
         uses: pyTooling/upload-artifact@v7
         with:
           name: log-html-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.log
-            temp/**/*.html
-            temp/**/reports/*.html
-            temp/**/reports/**/*.html
-            temp/**/logs/**/*.*
-            temp/**/reports/*.css
-            temp/**/reports/*.png
-            temp/**/results/**/*.log
-            temp/**/results/**/*.txt
+            **/*.log
+            **/*.html
+            **/reports/*.html
+            **/reports/**/*.html
+            **/logs/**/*.*
+            **/reports/*.css
+            **/reports/*.png
+            **/results/**/*.log
+            **/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
@@ -101,8 +102,9 @@ jobs:
         with:
           name: yaml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.yml
+            **/*.yml
           if-no-files-found: error
           retention-days: 1
 
@@ -111,8 +113,9 @@ jobs:
         with:
           name: xml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.xml
+            **/*.xml
           if-no-files-found: error
           retention-days: 1
 
@@ -163,7 +166,7 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartNVC.tcl
+          tclsh ../.github/regression.tcl StartNVC.tcl "${{ matrix.name }}-nvc"
 
       - name: 🚧 Run tests on Windows + MSYS2/UCRT64
         if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
@@ -173,7 +176,7 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartNVC.tcl
+          tclsh ../.github/regression.tcl StartNVC.tcl "${{ matrix.name }}-nvc"
 
       - name: '📤 Upload artifact: logs'
         uses: pyTooling/upload-artifact@v7
@@ -181,15 +184,15 @@ jobs:
           name: log-html-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
-            temp/**/*.log
-            temp/**/*.html
-            temp/**/reports/*.html
-            temp/**/reports/**/*.html
-            temp/**/logs/**/*.*
-            temp/**/reports/*.css
-            temp/**/reports/*.png
-            temp/**/results/**/*.log
-            temp/**/results/**/*.txt
+            **/*.log
+            **/*.html
+            **/reports/*.html
+            **/reports/**/*.html
+            **/logs/**/*.*
+            **/reports/*.css
+            **/reports/*.png
+            **/results/**/*.log
+            **/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
@@ -198,8 +201,9 @@ jobs:
         with:
           name: yaml-${{ matrix.name }}-nvc
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.yml
+            **/*.yml
           if-no-files-found: error
           retention-days: 1
 
@@ -208,8 +212,9 @@ jobs:
         with:
           name: xml-${{ matrix.name }}-nvc
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.xml
+            **/*.xml
           if-no-files-found: error
           retention-days: 1
 
