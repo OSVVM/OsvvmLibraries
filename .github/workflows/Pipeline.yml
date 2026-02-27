@@ -76,43 +76,46 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartGHDL.tcl
+          tclsh ../.github/regression.tcl StartUp.tcl "${{ matrix.os.name }}-ghdl-${{ matrix.backend }}"
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: log-html-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.log
-            temp/**/*.html
-            temp/**/reports/*.html
-            temp/**/reports/**/*.html
-            temp/**/logs/**/*.*
-            temp/**/reports/*.css
-            temp/**/reports/*.png
-            temp/**/results/**/*.log
-            temp/**/results/**/*.txt
+            **/*.log
+            **/*.html
+            **/reports/*.html
+            **/reports/**/*.html
+            **/logs/**/*.*
+            **/reports/*.css
+            **/reports/*.png
+            **/results/**/*.log
+            **/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: yaml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.yml
+            **/*.yml
           if-no-files-found: error
           retention-days: 1
 
       - name: '📤 Upload artifact: xml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: xml-${{ matrix.os.name }}-ghdl-${{ matrix.backend }}
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.xml
+            **/*.xml
           if-no-files-found: error
           retention-days: 1
 
@@ -163,7 +166,7 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartNVC.tcl
+          tclsh ../.github/regression.tcl StartNVC.tcl "${{ matrix.name }}-nvc"
 
       - name: 🚧 Run tests on Windows + MSYS2/UCRT64
         if: matrix.name == 'Windows' && startsWith(matrix.shell, 'msys2')
@@ -173,43 +176,45 @@ jobs:
           mkdir temp
           cd temp
 
-          tclsh ../.github/test.tcl StartNVC.tcl
+          tclsh ../.github/regression.tcl StartNVC.tcl "${{ matrix.name }}-nvc"
 
       - name: '📤 Upload artifact: logs'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: log-html-${{ matrix.name }}-nvc
           include-hidden-files: true
           path: |
-            temp/**/*.log
-            temp/**/*.html
-            temp/**/reports/*.html
-            temp/**/reports/**/*.html
-            temp/**/logs/**/*.*
-            temp/**/reports/*.css
-            temp/**/reports/*.png
-            temp/**/results/**/*.log
-            temp/**/results/**/*.txt
+            **/*.log
+            **/*.html
+            **/reports/*.html
+            **/reports/**/*.html
+            **/logs/**/*.*
+            **/reports/*.css
+            **/reports/*.png
+            **/results/**/*.log
+            **/results/**/*.txt
           if-no-files-found: error
           retention-days: 1
 
       - name: '📤 Upload artifact: yaml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: yaml-${{ matrix.name }}-nvc
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.yml
+            **/*.yml
           if-no-files-found: error
           retention-days: 1
 
       - name: '📤 Upload artifact: xml'
-        uses: actions/upload-artifact@v4
+        uses: pyTooling/upload-artifact@v7
         with:
           name: xml-${{ matrix.name }}-nvc
           include-hidden-files: true
+          working-directory: 'temp'
           path: |
-            temp/**/*.xml
+            **/*.xml
           if-no-files-found: error
           retention-days: 1
 
@@ -248,7 +253,7 @@ jobs:
           tree OsvvmLibraries
 
       - name: '📤 Upload artifact: osvvm'
-        uses: pyTooling/upload-artifact@v6
+        uses: pyTooling/upload-artifact@v7
         with:
           name: osvvm
           working-directory: OsvvmLibraries
@@ -271,8 +276,8 @@ jobs:
       contents: write  # required for create tag
       actions:  write  # required for trigger workflow
     with:
-      version:             ${{ needs.Prepare.outputs.version }}
-      auto_tag:            ${{ needs.Prepare.outputs.is_release_commit }}
+      version:  ${{ needs.Prepare.outputs.version }}
+      auto_tag: ${{ needs.Prepare.outputs.is_release_commit }}
     secrets: inherit
 
   Release:
@@ -287,6 +292,7 @@ jobs:
       contents: write
       actions:  write
     with:
+      draft:                true
       replacements: |
         osvvm=${{ needs.Prepare.outputs.version }}
       tag:                  ${{ needs.Prepare.outputs.version }}
