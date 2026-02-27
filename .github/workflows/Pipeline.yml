@@ -271,8 +271,8 @@ jobs:
       contents: write  # required for create tag
       actions:  write  # required for trigger workflow
     with:
-      version:             ${{ needs.Prepare.outputs.version }}
-      auto_tag:            ${{ needs.Prepare.outputs.is_release_commit }}
+      version:  ${{ needs.Prepare.outputs.version }}
+      auto_tag: ${{ needs.Prepare.outputs.is_release_commit }}
     secrets: inherit
 
   Release:
@@ -287,6 +287,7 @@ jobs:
       contents: write
       actions:  write
     with:
+      draft:                true
       replacements: |
         osvvm=${{ needs.Prepare.outputs.version }}
       tag:                  ${{ needs.Prepare.outputs.version }}
