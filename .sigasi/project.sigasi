@@ -1,0 +1,28 @@
+{
+    "name": "OsvvmLibraries",
+    "version": "2026.1",
+    "targets": {
+        "osvvm-lib-2008" :{
+            "environment": {
+                "OSVVM_TOOL": "Sigasi",
+                "OSVVM_VHDL_TARGET": "2008"
+            },
+            "command": "cd .sigasi/generated/osvvm-lib-2008 && vsim -do \"source ../../../Scripts/StartUp.tcl; build ../../../OsvvmLibraries; \""
+        },
+        "osvvm-lib-2019" :{
+            "environment": {
+                "OSVVM_TOOL": "Sigasi",
+                "OSVVM_VHDL_TARGET": "2019"
+            },
+            "command": "cd .sigasi/generated/osvvm-lib-2019 && vsim -do \"source ../../../Scripts/StartUp.tcl; build ../../../OsvvmLibraries; \""
+        },
+        "osvvm-test" : {
+            "environment": {
+                "OSVVM_TOOL": "Sigasi",
+                "OSVVM_VHDL_TARGET": "2008"
+            },
+            "command": "cd .sigasi/generated/osvvm-test && vsim -do \"source ../../../Scripts/StartUp.tcl; build ../../../RunAllTests; \"",
+            "dependencies": ["osvvm-lib-2008"]
+        }
+    }
+}
