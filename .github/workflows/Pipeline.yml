@@ -28,6 +28,7 @@ jobs:
           - llvm
         exclude:
           - {os: {name: "macOS"}, backend: "mcode"}   # mcode is not supported for aarch64
+          - {os: {name: "Windows"}, backend: "llvm"}   # llvm is currently has exec error starting on May 12, last tested June 2 
 
     defaults:
       run:
