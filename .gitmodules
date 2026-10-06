@@ -39,3 +39,6 @@
 	path = CoSimPCIe
 	url = ../CoSimPCIe.git
 	branch = main
+[submodule "AvalonST"]
+	path = AvalonST
+	url = ../AvalonST.git
