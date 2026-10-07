@@ -42,3 +42,6 @@
 [submodule "AvalonST"]
 	path = AvalonST
 	url = ../AvalonST.git
+[submodule "SpaceWireMonitor"]
+	path = SpaceWireMonitor
+	url = ../SpaceWireMonitor.git
